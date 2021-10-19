@@ -1,0 +1,12 @@
+[
+  {"name": "DICE_ROLL", "data": [], "size": 0},
+  {"name": "DICE_LAND", "data": [], "size": 0},
+  {"name": "WRAP_BLOCK", "data": [], "size": 0},
+  {"name": "BOO_STEAL", "data": [], "size": 0},
+  {"name": "STAR_GET", "data": [], "size": 0},
+  {"name": "MENU_PROMPT", "data": [], "size": 0},
+  {"name": "INVALID_CHOICE", "data": [], "size": 0},
+  {"name": "SAVE_PROMPT", "data": [], "size": 0},
+  {"name": "SAVE_PROGRESS", "data": [], "size": 0},
+  {"name": "SAVE_COMPLETE", "data": [], "size": 0}
+]

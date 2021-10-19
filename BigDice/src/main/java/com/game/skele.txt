@@ -1,0 +1,52 @@
+Mario Party CLI
+
+Pre-game:
+Generate random board
+
+One actual player, three "computers" players - OUTDATED
+
+User specifies amount of Human Players and amount of Computer Players
+
+Actual player rolls dice - OUTDATED
+
+All Human Players press enter to roll dice
+All CPU Players automatically roll dice
+
+Sort all players numbers and set their order
+
+Start the game
+
+Game Start:
+
+Actual Player has some options:
+- Items (I)
+- Roll Die (R)
+- View Map (M) ----- NOT IMPLEMENTED YET
+- View Positions in Ranking (P)
+
+- R - IMPLEMENTATION DONE
+Wait for player to press key to roll die
+Move player x spaces (based on number die got)
+
+- I - IMPLEMENTATION DONE
+Only 3 items can be stored
+Items:
+- Mushroom = Roll 2 die then add both numbers together - IMPLEMENTATION DONE
+- Wrap Block = Swap places with another random player - IMPLEMENTATION DONE
+- Boo Bell = Steal coins for 5 coins or stars for 50 coins from another player - IMPLEMENTATION DONE
+
+- M - NOT IMPLEMENTED YET
+Print current map
+
+- P - IMPLEMENTATION DONE
+Print Player from 1st place to last place
+
+---------------------------
+
+Spaces where player can land:
+- Blue Space = Gives 3 coins (6 in last 5 turns) - IMPLEMENTATION HALF DONE
+- Red Space = Takes 3 coins (6 in last 5 turns) - IMPLEMENTATION HALF DONE
+- Item Space = Randomly gives one of the three items listed above if player has less than 3 items - IMPLEMENTATION DONE
+- Star Space (Takes up random Blue Space) = Gives player chance to buy Star for 20 coins - IMPLEMENTATION DONE
+
+---------------------------

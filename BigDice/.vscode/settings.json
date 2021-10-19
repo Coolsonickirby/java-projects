@@ -1,0 +1,16 @@
+{
+    "java.project.sourcePaths": [
+        "src\\main\\java"
+    ],
+    "java.project.outputPath": "bin",
+    "java.project.referencedLibraries": {
+        "include": [
+            "lib/**/*.jar"
+        ],
+        "exclude": [
+            "lib/mp3plugin.jar",
+            "d:\\Java\\BigDice\\lib\\jorbis.jar",
+            "a:\\BigDice\\lib\\tritonus_jorbis.jar"
+        ]
+    }
+}

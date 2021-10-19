@@ -1,0 +1,582 @@
+<!-----------------------------------------------------------------|*
+ *| CIS-171 Java Programming                                       |*
+ *| Assignment #9 - Big Dice Game                                  |*
+ *| Written By: Ali Hussain (Coolsonickirby/Random)                |*
+ *|                                                                |*
+ *| This website is a save creator/editor for the format known as  |*
+ *| .mpcs (Mario Party CLI Save).                                  |*
+ *|                                                                |*
+ *| The only game that can read this type of file as of now is     |*
+ *| Mario Party CLI (Java).                                        |*
+ *|                                                                |*
+ *| Mario Party CLI is a game made in Java that's basically a bare |*
+ *| bones clone of the original Mario Party games.                 |*
+ *|                                                                |*
+ *| You can find a link to it's source code here:                  |*
+ *| (will put link after assignment due date)                      |*
+--------------------------------------------------------------------->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mario Party CLI (Save Creator/Editor)</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5sortable/0.13.3/html5sortable.min.js" integrity="sha512-3btxfhQfasdVcv1dKYZph5P7jFeeLRcF1gDVzFA+k9AiwwhB1MNI7O58zCK0uVItuMHNDR5pMoF2nqlCGzUwZQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <style>
+        * {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        
+        .container {
+            width: 90%;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        table {
+            text-align: left;
+        }
+        
+        table input {
+            width: 100%;
+        }
+        
+        table select {
+            width: 100%;
+        }
+        
+        #players {
+            border: 2px solid black;
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr);
+            width: 100%;
+            height: 100%;
+        }
+        
+        #map {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 1fr 1fr 1fr 1fr 1fr;
+            gap: 0px 0px;
+            width: 100%;
+            height: 100%;
+            margin-bottom: 20px;
+        }
+        
+        .map-spot {
+            margin: 10px;
+        }
+        
+        .player-card {
+            border: 2px solid black;
+            border-radius: 10px;
+            margin: 20px;
+            padding: 10px;
+        }
+        
+        @media only screen and (max-width: 1246px) {
+            #players {
+                grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+            }
+        }
+        
+        @media only screen and (max-width: 760px) {
+            #players {
+                grid-template-columns: minmax(0, 1fr);
+            }
+            #map {
+                grid-template-columns: minmax(0, 1fr) 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <input type="file" id="file" accept=".mpcs" hidden>
+
+        <h2>Mario Party CLI (Save Editor)</h2>
+        <noscript>
+            <h1>This site requires javascript to run properly!</h1>
+        </noscript>
+        <div id="main" style="display: none;">
+            <hr />
+            <button type="button" id="open">Open</button>
+            <button type="button" id="save">Save</button>
+            <hr />
+            <h2>Game Settings</h2>
+
+            <label for="gameStarted">Game Started:</label>
+            <input type="checkbox" id="gameStarted">
+
+            <label for="turns">Number of Turns:</label>
+            <input type="number" min="1" max="9999" value="20" id="turns">
+
+            <label for="currentPlayer">Current Player:</label>
+            <input type="number" min="1" max="9999" value="0" id="currentPlayer">
+
+            <br />
+            <br />
+
+            <hr />
+            <h2>Players</h2>
+            <h4>(Drag the players card around to change the turn order)</h4>
+            <label for="playersCount">Amount of Players:</label>
+            <input type="number" min="2" max="4" value="2" name="playersCount" id="playersCount" oninput="updatePlayersForm(this.value)">
+            <br />
+            <br />
+            <div id="players"></div>
+            <br />
+            <br />
+            <hr />
+            <h2>Map</h2>
+            <label for="mapSpots">Amount of Spots:</label>
+            <input type="number" min="1" max="9999" value="50" name="mapSpots" id="mapSpots" oninput="updateMapSpots(this.value)">
+            <br />
+            <br />
+            <div id="map"></div>
+            <br />
+            <br />
+        </div>
+    </div>
+
+    <script>
+        class Player {
+            constructor() {
+                this.startingNumber = 0;
+                this.nameLength = 0;
+                this.name = "";
+                this.coins = 0;
+                this.stars = 0;
+                this.amountOfItems = 0;
+                this.items = [];
+                this.currentPosition = 0;
+                this.isCPU = true;
+            }
+        }
+
+        class GameState {
+            constructor() {
+                this.magic = "";
+                this.gameStarted = false;
+                this.turns = 20;
+                this.mapSize = 0;
+                this.mapSpots = [];
+                this.playersCount = 0;
+                this.players = [];
+                this.current_player = 0;
+
+                //#region ArrayBuffer releated variables
+                this.position = 0;
+                this.result = [];
+                this.arrayBuffer = [];
+                //#endregion
+            }
+
+            ParseArrayBuffer(arrayBuffer) {
+                this.arrayBuffer = arrayBuffer;
+                this.position = 0;
+                this.magic = this.ReadString(4);
+                if (this.magic != "MPGS") {
+                    return;
+                }
+
+                this.gameStarted = this.ReadUInt8() != 0;
+                this.turns = this.ReadUInt32();
+                this.mapSize = this.ReadUInt32();
+                for (var i = 0; i < this.mapSize; i++) {
+                    this.mapSpots[i] = this.ReadUInt8();
+                }
+
+                this.playersCount = this.ReadUInt32();
+                for (var i = 0; i < this.playersCount; i++) {
+                    this.players[i] = new Player();
+                    this.players[i].startingNumber = this.ReadUInt8();
+                    this.players[i].nameLength = this.ReadUInt32();
+                    this.players[i].name = this.ReadString(this.players[i].nameLength);
+                    this.players[i].coins = this.ReadUInt32();
+                    this.players[i].stars = this.ReadUInt32();
+                    this.players[i].amountOfItems = this.ReadUInt8();
+                    for (var y = 0; y < this.players[i].amountOfItems; y++) {
+                        this.players[i].items[y] = this.ReadUInt8();
+                    }
+                    this.players[i].currentPosition = this.ReadUInt32();
+                    this.players[i].isCPU = this.ReadUInt8() != 0;
+                }
+
+                this.current_player = this.ReadUInt32();
+            }
+
+            SaveToArrayBuffer(information) {
+                this.result = [];
+                this.position = 0;
+                this.WriteString("MPGS");
+
+                this.WriteByte(information["gameStarted"] ? 1 : 0);
+                this.WriteUInt32(information["turns"]);
+                this.WriteUInt32(information["mapSize"]);
+                for (var i = 0; i < information["mapSpots"].length; i++) {
+                    this.WriteByte(information["mapSpots"][i]);
+                }
+                this.WriteUInt32(information["playersCount"]);
+                for (var i = 0; i < information["players"].length; i++) {
+                    this.WriteByte(information["players"][i].startingNumber);
+                    this.WriteUInt32(information["players"][i].nameLength);
+                    this.WriteString(information["players"][i].name);
+                    this.WriteUInt32(information["players"][i].coins);
+                    this.WriteUInt32(information["players"][i].stars);
+                    this.WriteByte(information["players"][i].amountOfItems);
+                    for (var y = 0; y < information["players"][i].amountOfItems; y++) {
+                        this.WriteByte(information["players"][i].items[y]);
+                    }
+                    this.WriteUInt32(information["players"][i].currentPosition);
+                    this.WriteByte(information["players"][i].isCPU ? 1 : 0);
+                }
+                this.WriteUInt32(information["currentPlayer"]);
+            }
+
+            Download(outputName) {
+                let blob = new Blob([new Uint8Array(this.result)], {
+                    type: "application/octet-stream"
+                });
+
+                if (!outputName.includes(".mpcs")) {
+                    outputName += ".mpcs";
+                }
+
+                let link = document.createElement("a");
+                link.href = window.URL.createObjectURL(blob);
+                link.download = `${outputName}`;
+
+                link.click();
+            }
+
+            ReadString(amount) {
+                let res = "";
+                for (var i = 0; i < amount; i++) {
+                    res += String.fromCharCode(this.arrayBuffer[this.position]);
+                    this.position += 1;
+                }
+                return res;
+            }
+
+            ReadByte() {
+                let res = this.arrayBuffer[this.position];
+                this.position += 1;
+                return res;
+            }
+
+            ReadBytes(amount) {
+                let res = [];
+                for (let i = 0; i < amount; i++) {
+                    res.push(this.ReadByte());
+                }
+                return res;
+            }
+
+            ReadBytesFromOffset(offset, amount) {
+                this.position = offset;
+                return this.ReadBytes(amount);
+            }
+
+            ReadUInt8() {
+                return this.ReadByte();
+            }
+
+            ReadUInt32() {
+                let uint8 = Uint8Array.from(this.arrayBuffer.slice(this.position, this.position + 4));
+                let dataView = new DataView(uint8.buffer);
+                this.position += 4;
+                return dataView.getInt32(0, false);
+            }
+
+            WriteByte(byte) {
+                this.result.push(byte);
+                this.position += 1;
+            }
+
+            WriteUInt8(number) {
+                this.WriteByte(number);
+            }
+
+            WriteBytes(byteArray) {
+                this.result = [].concat(this.result, byteArray);
+                this.position += byteArray.length;
+            }
+
+            WriteUInt32(number) {
+                let arrayBuf = new ArrayBuffer(4);
+                let dataView = new DataView(arrayBuf);
+
+                dataView.setInt32(0, number, false);
+
+                let res = Array.from(new Uint8Array(dataView.buffer));
+
+                this.result = [].concat(this.result, res);
+                this.position += 4;
+            }
+
+            WriteString(str) {
+                for (let i = 0; i < str.length; i++) {
+                    this.result[this.position] = str.charCodeAt(i);
+                    this.position += 1;
+                }
+            }
+        }
+    </script>
+
+    <script>
+        var ids = [];
+        var MAX_IDS = 9999;
+        var game_state = new GameState();
+        var PLAYER_SELECTORS = {
+            "startingNumber": "tr:nth-child(6)>td:nth-child(2)>input",
+            "name": "tr:first-child>td:nth-child(2)>input",
+            "isCPU": "tr:nth-child(2)>td:nth-child(2)>select",
+            "coins": "tr:nth-child(3)>td:nth-child(2)>input",
+            "stars": "tr:nth-child(4)>td:nth-child(2)>input",
+            "currentPosition": "tr:nth-child(5)>td:nth-child(2)>input",
+            "startingNumber": "tr:nth-child(6)>td:nth-child(2)>input",
+            "amountOfItems": "tr:nth-child(7)>td:nth-child(2)>input",
+        }
+
+        window.onload = () => {
+            document.getElementById("main").style.display = "block";
+            updatePlayersForm(document.getElementById("playersCount").value);
+            updateMapSpots(document.getElementById("mapSpots").value);
+            document.getElementById("file").addEventListener("change", () => {
+                if (document.getElementById("file").files.length > 0) {
+                    var reader = new FileReader();
+
+                    reader.onloadend = (evt) => {
+                        if (evt.target.readyState == FileReader.DONE) {
+                            game_state = new GameState();
+                            game_state.ParseArrayBuffer(new Uint8Array(evt.target.result));
+                            updateFormFromGameState();
+                        }
+                    };
+
+                    reader.readAsArrayBuffer(document.getElementById("file").files[0]);
+                }
+            });
+
+            document.getElementById("open").addEventListener("click", () => {
+                document.getElementById("file").click();
+            });
+
+            document.getElementById("save").addEventListener("click", () => {
+                game_state.SaveToArrayBuffer(getInformation());
+                game_state.Download(window.prompt("Enter the save file name:"));
+            });
+
+        }
+
+        function getID() {
+            if (ids.length >= MAX_IDS) {
+                location.reload(); // Honestly if you add that much players, then 😐
+            }
+
+            var id = Math.floor(Math.random() * MAX_IDS);
+            while (ids.includes(id)) {
+                id = Math.floor(Math.random() * MAX_IDS);
+            }
+            ids.push(id);
+            return id;
+        }
+
+        function getInformation() {
+            var mapSpots = Array.from(document.querySelectorAll("#map>.map-spot"));
+            var players = Array.from(document.querySelectorAll("#players>.player-card>table"));
+            var info = {
+                "gameStarted": document.getElementById("gameStarted").checked,
+                "turns": parseInt(document.getElementById("turns").value),
+                "mapSize": mapSpots.length,
+                "mapSpots": [],
+                "playersCount": players.length,
+                "players": [],
+                "currentPlayer": parseInt(document.getElementById("currentPlayer").value)
+            };
+
+            for (var i = 0; i < mapSpots.length; i++) {
+                info["mapSpots"][i] = parseInt(mapSpots[i].querySelector("select").value);
+            }
+
+            for (var i = 0; i < players.length; i++) {
+                info["players"][i] = new Player();
+                info["players"][i].startingNumber = players[i].querySelector(PLAYER_SELECTORS["startingNumber"]).value;
+                info["players"][i].nameLength = players[i].querySelector(PLAYER_SELECTORS["name"]).value.length;
+                info["players"][i].name = players[i].querySelector(PLAYER_SELECTORS["name"]).value;
+                info["players"][i].isCPU = players[i].querySelector(PLAYER_SELECTORS["isCPU"]).value == "cpu";
+                info["players"][i].coins = players[i].querySelector(PLAYER_SELECTORS["coins"]).value;
+                info["players"][i].stars = players[i].querySelector(PLAYER_SELECTORS["stars"]).value;
+                info["players"][i].currentPosition = players[i].querySelector(PLAYER_SELECTORS["currentPosition"]).value;
+
+                var items = Array.from(players[i].querySelectorAll("tr.items select"));
+                info["players"][i].amountOfItems = items.length;
+                for (var y = 0; y < items.length; y++) {
+                    info["players"][i].items[y] = parseInt(items[y].value);
+                }
+            }
+            return info;
+        }
+
+        function updateFormFromGameState() {
+            document.getElementById("turns").value = game_state.turns;
+            document.getElementById("gameStarted").checked = game_state.gameStarted;
+            document.getElementById("currentPlayer").value = game_state.current_player;
+
+            document.getElementById("playersCount").value = game_state.players.length;
+            updatePlayersForm(game_state.players.length);
+
+            var playerCards = Array.from(document.querySelectorAll("#players>.player-card>table"));
+            for (var i = 0; i < playerCards.length; i++) {
+                playerCards[i].querySelector(PLAYER_SELECTORS["name"]).value = game_state.players[i].name;
+                playerCards[i].querySelector(PLAYER_SELECTORS["isCPU"]).value = game_state.players[i].isCPU ? "cpu" : "human";
+                playerCards[i].querySelector(PLAYER_SELECTORS["coins"]).value = game_state.players[i].coins;
+                playerCards[i].querySelector(PLAYER_SELECTORS["stars"]).value = game_state.players[i].stars;
+                playerCards[i].querySelector(PLAYER_SELECTORS["currentPosition"]).value = game_state.players[i].currentPosition;
+                playerCards[i].querySelector(PLAYER_SELECTORS["startingNumber"]).value = game_state.players[i].startingNumber;
+                playerCards[i].querySelector(PLAYER_SELECTORS["amountOfItems"]).value = game_state.players[i].amountOfItems;
+                updateItemInventorySize(playerCards[i].querySelector(PLAYER_SELECTORS["amountOfItems"]));
+
+                var items = Array.from(playerCards[i].querySelectorAll("tr.items"));
+                for (var y = 0; y < items.length; y++) {
+                    var itemType = game_state.players[i].items[y];
+                    items[y].querySelector("td:nth-child(2)>select").value = itemType;
+                }
+            }
+
+            document.getElementById("mapSpots").value = game_state.mapSpots.length;
+            updateMapSpots(game_state.mapSpots.length);
+            var spots = Array.from(document.querySelectorAll("#map>.map-spot"));
+            for (var i = 0; i < spots.length; i++) {
+                spots[i].querySelector("select").value = game_state.mapSpots[i];
+            }
+        }
+
+        function updatePlayersForm(count) {
+            var playersArray = Array.from(document.querySelectorAll("#players>.player-card"));
+
+            if (count > playersArray.length) {
+                // New Players
+                for (var i = playersArray.length; i < count; i++) {
+                    var newPlayerDiv = document.createElement("div");
+                    var id = getID();
+                    newPlayerDiv.classList.add("player-card");
+                    newPlayerDiv.innerHTML = `
+                        <table>
+                        <tr>
+                            <td><label for="playerName${id}">Name:</label></td>
+                            <td><input type="text" name="playerName${id}" id="playerName${id}"></td>
+                        </tr>
+                        <tr>
+                            <td><label for="playerType${id}">Type:</label></td>
+                            <td>
+                                <select name="playerType${id}" id="playerType${id}">
+                                    <option value="human">Human</option>
+                                    <option value="cpu">CPU</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label for="playerCoins${id}">Coins:</label></td>
+                            <td><input type="number" min="0" max="9999" name="playerCoins${id}" id="playerCoins${id}"></td>
+                        </tr>
+                        <tr>
+                            <td><label for="playerStars${id}">Stars:</label></td>
+                            <td><input type="number" min="0" max="9999" name="playerStars${id}" id="playerStars${id}"></td>
+                        </tr>
+                        <tr>
+                            <td><label for="playerCurrentPosition${id}">Current Position on Map:</label></td>
+                            <td><input type="number" min="0" max="9999" name="playerCurrentPosition${id}" id="playerCurrentPosition${id}"></td>
+                        </tr>
+                        <tr>
+                            <td><label for="playerStartingNumber${id}">Starting Number:</label></td>
+                            <td><input type="number" min="0" max="9999" name="playerStartingNumber${id}" id="playerStartingNumber${id}"></td>
+                        </tr>
+                        <tr>
+                            <td><label for="playerItemInventorySize${id}">Item Inventory Size:</label></td>
+                            <td><input type="number" min="0" max="255" name="playerItemInventorySize${id}" id="playerItemInventorySize${id}" oninput="updateItemInventorySize(this)" value="3"></td>
+                        </tr>
+                    </table>
+                    `;
+                    document.getElementById("players").append(newPlayerDiv);
+                    updateItemInventorySize(document.getElementById(`playerItemInventorySize${id}`));
+                }
+            } else if (count < playersArray.length) {
+                // Remove Players
+                playersArray = playersArray.splice(count);
+                playersArray.forEach(item => {
+                    item.remove();
+                });
+            }
+
+            sortable("#players");
+        }
+
+        function updateItemInventorySize(elem) {
+            var items = Array.from(elem.parentElement.parentElement.parentElement.querySelectorAll(".items"));
+
+            if (elem.value > items.length) {
+                // Add Items
+                for (var i = items.length; i < elem.value; i++) {
+                    var id = getID();
+                    var text = `
+                        <td><label for="playerItem${id}">Item #${i + 1}:</label></td>
+                        <td>
+                            <select id="playerItem${id}">
+                                <option value="255">No Item</option>
+                                <option value="0">Mushroom</option>
+                                <option value="1">Wrap Block</option>
+                                <option value="2">Boo Bell</option>
+                            </select>
+                        </td>
+                    `;
+
+                    var tr = document.createElement("tr");
+                    tr.classList.add("items");
+                    tr.innerHTML = text;
+                    elem.parentElement.parentElement.parentElement.append(tr);
+                }
+            } else if (elem.value < items.length) {
+                // Remove Items
+                items = items.splice(elem.value);
+                items.forEach(item => {
+                    item.remove();
+                });
+            }
+        }
+
+        function updateMapSpots(count) {
+            var mapSpots = Array.from(document.querySelectorAll("#map>.map-spot"));
+            if (count > mapSpots.length) {
+                // Add Map Spots
+                for (var i = mapSpots.length; i < count; i++) {
+                    var mapSpotDiv = document.createElement("div");
+                    mapSpotDiv.classList.add("map-spot");
+                    mapSpotDiv.innerHTML = `
+                        <label for="mapSpot${i}">Spot #${i + 1}:</label>
+                        <select id="mapSpot${i}">
+                            <option value="0">Blue</option>
+                            <option value="1">Red</option>
+                            <option value="2">Item</option>
+                            <option value="3">Star</option>
+                        </select>
+                    `;
+                    document.getElementById("map").append(mapSpotDiv);
+                }
+            } else if (count < mapSpots.length) {
+                // Remove map spots
+                mapSpots = mapSpots.splice(count);
+                mapSpots.forEach(spot => {
+                    spot.remove();
+                });
+            }
+        }
+    </script>
+</body>
+
+</html>

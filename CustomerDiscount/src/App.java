@@ -1,9 +1,9 @@
 /*|----------------------------------------------------------------|*
  *| CIS-171 Java Programming                                       |*
- *| Assignment #X - Assignment Title                               |*
+ *| Assignment #11 - Customer Discount                             |*
  *| Written By: Ali Hussain (Coolsonickirby/Random)                |*
  *|                                                                |*
- *| Notes: Blah Blah Blah                                          |*
+ *| Notes: Thanks for explaining it to me in the virtual lab!      |*
  *|----------------------------------------------------------------|*
  */
 

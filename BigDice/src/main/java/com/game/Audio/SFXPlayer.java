@@ -1,3 +1,10 @@
+/*|----------------------------------------------------------------|*
+ *| CIS-171 Java Programming                                       |*
+ *| Assignment #9 - Big Dice Game                                  |*
+ *| Written By: Ali Hussain (Coolsonickirby/Random)                |*
+ *|----------------------------------------------------------------|*
+ */
+
 package com.game.Audio;
 
 import javax.sound.sampled.*;
@@ -22,13 +29,6 @@ public class SFXPlayer {
             for(SFXEnum sfx_enum : SFXEnum.values()){
                 try {
                     SFX_LIST.put(sfx_enum, SetupClip(new ByteArrayInputStream(nus3sfx.GetByToneName(sfx_enum.name()).fileData), sfx_enum));
-                    // try {
-                    //     OutputStream oStream = new FileOutputStream(new File(String.format("test/%s.wav", sfx_enum.name())));
-                    //     oStream.write(nus3sfx.GetByToneName(sfx_enum.name()).fileData);
-                    //     oStream.close();
-                    // } catch (Exception e) {
-                    //     e.printStackTrace();
-                    // }
                 } catch (Exception e) {
                     if(Main.IS_DEBUG){
                         e.printStackTrace();

@@ -1,3 +1,10 @@
+/*|----------------------------------------------------------------|*
+ *| CIS-171 Java Programming                                       |*
+ *| Assignment #9 - Big Dice Game                                  |*
+ *| Written By: Ali Hussain (Coolsonickirby/Random)                |*
+ *|----------------------------------------------------------------|*
+ */
+
 package com.game.nus3audio;
 
 import java.nio.ByteOrder;
@@ -260,14 +267,16 @@ public class nus3audio {
         try {
             for(int i = 0; i < adof.fileEntries.length; i++){
                 inputStream.reset();
+
+                // Less accurate - JDK 8 compatible
                 inputStream.skip(adof.fileEntries[i].fileOffset);
-                // inputStream.skipNBytes(adof.fileEntries[i].fileOffset); // More accurate - JDK 11 or higher
-
-                // byte[] data = new byte[adof.fileEntries[i].fileSize];
-                // inputStream.read(data);
-
-                // this.files.add(new FileEntry(this.tnnm.stringSection.get(i), data));
-                this.files.add(new FileEntry(this.tnnm.stringSection.get(i), inputStream.readNBytes(adof.fileEntries[i].fileSize)));
+                byte[] data = new byte[adof.fileEntries[i].fileSize];
+                inputStream.read(data);
+                this.files.add(new FileEntry(this.tnnm.stringSection.get(i), data));
+                
+                // More accurate - JDK 11 or higher only
+                // inputStream.skipNBytes(adof.fileEntries[i].fileOffset); // 
+                // this.files.add(new FileEntry(this.tnnm.stringSection.get(i), inputStream.readNBytes(adof.fileEntries[i].fileSize)));
             }
             inputStream.close();
         } catch (Exception e) {

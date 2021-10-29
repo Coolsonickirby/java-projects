@@ -12,7 +12,7 @@
  *| - Random Map Generation                                        |*
  *| - Music Player (Formats: wav, ogg, mp3, au, aiff)              |*
  *| - nus3audio support (Format from Super Smash Bros. Ultimate    |*
- *|   and Gundam Versus)                                           |*
+ *|   and Gundam Versus - Ported from my C# version)               |*
  *| - Save and Load game support (optional save editor on          |*
  *|   http://coolsonickirby.com/mpcli)                             |*
  *|                                                                |*

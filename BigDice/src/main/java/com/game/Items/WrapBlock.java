@@ -3,6 +3,7 @@ package com.game.Items;
 import java.util.HashMap;
 
 import com.game.Player;
+import com.game.Audio.SFXPlayer;
 
 public class WrapBlock implements Item {
     private final String ITEM_NAME = "Wrap Block";
@@ -25,6 +26,7 @@ public class WrapBlock implements Item {
         int srcPos = srcPlayer.getCurrentPosition();
         srcPlayer.setCurrentPosition(targetPlayer.getCurrentPosition());
         targetPlayer.setCurrentPosition(srcPos);
+        SFXPlayer.PlayWrapBlock();
         System.out.format("Swapped %s\'s position with %s\'s!\n", srcPlayer.getName(), targetPlayer.getName());
     }
 

@@ -4,9 +4,17 @@
             "type": "java",
             "name": "Launch App",
             "request": "launch",
+            "vmArgs": "--module-path /usr/share/openjfx/lib --add-modules=javafx.base,javafx.controls,javafx.fxml,javafx.graphics,javafx.media,javafx.swing,javafx.web",
+            "mainClass": "App",
+            "projectName": "JavaFXIntro_ec6504e9"
+        },
+        {
+            "type": "java",
+            "name": "Launch App",
+            "request": "launch",
             "vmArgs": "--module-path ../libs/javafx-sdk-11.0.2/lib --add-modules javafx.controls,javafx.fxml",
             "mainClass": "App",
-            "projectName": "JavaFXIntro_f79b62dd",
+            "projectName": "JavaFXIntro_f79b62dd"
         }
     ],
 }

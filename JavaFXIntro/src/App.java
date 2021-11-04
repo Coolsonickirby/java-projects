@@ -17,6 +17,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -47,29 +49,32 @@ public class App extends Application {
         GridPane grid = new GridPane();
         grid.setHgap(10);
         grid.setVgap(10);
-        StackPane.setMargin(grid, new Insets(15, 50, 50, 50));
+        StackPane.setMargin(grid, new Insets(50, 50, 50, 50));
         root.getChildren().add(grid);
 
-        HBox header = new HBox();
         Label title = new Label("Employee Manager");
         title.setFont(new Font(30.0));
+        
         StackPane iconContainer = new StackPane();
+
         Circle outline = new Circle();
         outline.setCenterX(10.0f);
         outline.setCenterY(10.0f);
-        outline.setRadius(10.0f);
+        outline.setRadius(20.0f);
         outline.setFill(Color.TRANSPARENT);
         outline.setStroke(Color.BLACK);
+        outline.setStrokeWidth(2);
         
-        
-        iconContainer.getChildren().addAll(outline);
-        
-        header.getChildren().addAll(title, iconContainer);
-        
-        GridPane.setHalignment(header, HPos.CENTER);
-        GridPane.setColumnSpan(header, GridPane.REMAINING);        
-        GridPane.setConstraints(header, 0, 0);
-        grid.getChildren().add(header);
+        // Wrench Icon courtesy of The Noun Project (https://thenounproject.com/term/wrench/)
+        Image icon = new Image("./icon.png");
+        ImageView iconView = new ImageView(icon);
+        iconView.setFitWidth(30);
+        iconView.setPreserveRatio(true);
+        iconContainer.getChildren().addAll(outline, iconView);
+
+        GridPane.setConstraints(iconContainer, 0, 0);
+        GridPane.setConstraints(title, 1, 0);
+        grid.getChildren().addAll(iconContainer, title);
 
         Label lblName = new Label("Employee Name:");
         TextField txtName = new TextField();

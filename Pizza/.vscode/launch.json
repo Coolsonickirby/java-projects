@@ -4,6 +4,14 @@
             "type": "java",
             "name": "Launch App",
             "request": "launch",
+            "vmArgs": "--module-path /usr/share/openjfx/lib --add-modules=javafx.base,javafx.controls,javafx.fxml,javafx.graphics,javafx.media,javafx.swing,javafx.web",
+            "mainClass": "App",
+            "projectName": "Pizza_a3f4b5d9"
+        },
+        {
+            "type": "java",
+            "name": "Launch App",
+            "request": "launch",
             "vmArgs": "--module-path ../libs/javafx-sdk-11.0.2/lib --add-modules javafx.controls,javafx.fxml",
             "mainClass": "App",
             "projectName": "Pizza_6d0087a9"

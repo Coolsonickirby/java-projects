@@ -22,19 +22,27 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.nio.DoubleBuffer;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Optional;
+import java.util.concurrent.atomic.DoubleAdder;
 import java.util.stream.Collectors;
+
+import javax.naming.spi.DirStateFactory.Result;
 
 public class App extends Application {
     public static final ArrayList<Size> PIZZA_SIZES = new ArrayList<Size>();
     public static final ArrayList<Topping> PIZZA_TOPPINGS = new ArrayList<Topping>();
     public static final ObservableList<Pizza> PIZZAS = FXCollections.observableArrayList();
+    public static String CASHIER_NAME = "";
     public static final NumberFormat FORMATTER = new DecimalFormat("#0.00");
     public static TableView<Pizza> TABLE_VIEW = new TableView<Pizza>();
 
@@ -68,10 +76,12 @@ public class App extends Application {
 
         Label lblCashier = new Label("Cashier Name:");
         TextField txtCashier = new TextField();
+        txtCashier.setOnKeyTyped(ev -> CASHIER_NAME = txtCashier.getText());
 
         Button btnAdd = new Button("Add Pizza");
         Button btnEdit = new Button("Edit Pizza");
         Button btnDel = new Button("Remove Pizza");
+        Button btnPrint = new Button("Print Recipt");
 
         TABLE_VIEW.setEditable(false);
 
@@ -87,47 +97,42 @@ public class App extends Application {
         TableColumn<Pizza, String> pizzaExtras = new TableColumn<Pizza, String>("Extra Instructions");
         pizzaExtras.setCellValueFactory(new PropertyValueFactory<Pizza, String>("extras"));
 
-        TableColumn<Pizza, String> pizzaTotalPrice = new TableColumn<Pizza, String>("Pizza Total Price");
-        pizzaTotalPrice.setCellValueFactory(new PropertyValueFactory<Pizza, String>("totalPriceString"));
+        TableColumn<Pizza, String> pizzaPrice = new TableColumn<Pizza, String>("Pizza Price");
+        pizzaPrice.setCellValueFactory(new PropertyValueFactory<Pizza, String>("priceString"));
 
         TABLE_VIEW.setItems(PIZZAS);
-        TABLE_VIEW.getColumns().addAll(pizzaID, pizzaSize, pizzaToppings, pizzaExtras, pizzaTotalPrice);
+        TABLE_VIEW.getColumns().addAll(pizzaID, pizzaSize, pizzaToppings, pizzaExtras, pizzaPrice);
         TABLE_VIEW.getColumns().stream().forEach(column -> {
             column.setMinWidth(120);
             column.setResizable(false);
         });
 
-        btnAdd.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                showPizzaMenu(0);
+        btnAdd.setOnAction(ev -> showPizzaMenu(0));
+
+        btnEdit.setOnAction(ev -> {
+            if (TABLE_VIEW.getSelectionModel().selectedItemProperty().get() != null) {
+                showPizzaMenu(TABLE_VIEW.getSelectionModel().selectedItemProperty().get().getId());
+            }else {
+                ShowMessage("Please select an item in the table first!");
             }
         });
 
-        btnEdit.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                if (TABLE_VIEW.getSelectionModel().selectedItemProperty().get() != null) {
-                    showPizzaMenu(TABLE_VIEW.getSelectionModel().selectedItemProperty().get().getId());
-                }else {
-                    ShowMessage("Please select an item in the table first!");
-                }
+        btnDel.setOnAction(ev -> {
+            if (TABLE_VIEW.getSelectionModel().selectedItemProperty().get() != null) {
+                System.out.println(ShowPrompt("Hi"));
+                PIZZAS.remove(TABLE_VIEW.getSelectionModel().selectedIndexProperty().get());
+            }else{
+                ShowMessage("Please select an item in the table first!");
             }
         });
 
-        btnDel.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                if (TABLE_VIEW.getSelectionModel().selectedItemProperty().get() != null) {
-                    System.out.println(ShowPrompt("Hi"));
-                    PIZZAS.remove(TABLE_VIEW.getSelectionModel().selectedIndexProperty().get());
-                }else{
-                    ShowMessage("Please select an item in the table first!");
-                }
+        btnPrint.setOnAction(ev -> {
+            if(TABLE_VIEW.getItems().size() > 0){
+                PrintReceipt();
             }
         });
 
-        HBox btns = new HBox(btnAdd, btnEdit, btnDel);
+        HBox btns = new HBox(btnAdd, btnEdit, btnDel, btnPrint);
         btns.setSpacing(10);
 
         VBox container = new VBox();
@@ -139,11 +144,41 @@ public class App extends Application {
         primaryStage.show();
     }
 
+    public static void PrintReceipt() {
+        FileChooser sfdRes = new FileChooser();
+        sfdRes.setInitialFileName("receipt.txt");
+        File location = sfdRes.showSaveDialog(null);
+        if(location == null){ return; }
+
+        StringBuilder result = new StringBuilder();
+        DoubleAdder totalPrice = new DoubleAdder();
+        result.append("Cashier: " + CASHIER_NAME + "\n");
+        PIZZAS.stream().forEach(pizza -> {
+            result.append(String.format("Pizza #%s\n", pizza.getId()));
+            result.append(String.format("\tSize:\n\t\t%s - %s\n", pizza.getPizzaSize().getSize(), FORMATTER.format(pizza.getPizzaSize().getPrice())));
+            result.append("\tToppings:\n");
+            pizza.getToppings().stream().forEach(topping -> result.append(String.format("\t\t%s - %s\n", topping.getType(), FORMATTER.format(topping.getPrice()))));
+            result.append(String.format("\tNotes: %s\n", pizza.getExtras().replace("\n", "\n\t       ")));
+            result.append(String.format("\t\tPrice: %s\n", pizza.getPriceString()));
+            totalPrice.add(pizza.getPrice());
+        });
+        result.append("------------------------------------------------------------------------\n");
+        result.append(String.format("\t\tTotal Price: %s\n", FORMATTER.format(totalPrice.doubleValue())));
+
+        try {
+            FileWriter writer = new FileWriter(location);
+            writer.write(result.toString());
+            writer.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void showPizzaMenu(int id) {
         Pizza currentPizza = PIZZAS.stream().filter(entry -> entry.getId() == id).findFirst().orElse(null);
 
-        Stage primaryStage = new Stage();
-        primaryStage.setTitle("Pizza");
+        Stage pizzaStage = new Stage();
+        pizzaStage.setTitle("Pizza");
 
         Label lblSizes = new Label("Select a pizza size:");
         ListView<String> lvSizes = new ListView<String>(FXCollections
@@ -217,14 +252,14 @@ public class App extends Application {
                 TABLE_VIEW.refresh(); // Refresh
 
                 // Always close after saving
-                primaryStage.close();
+                pizzaStage.close();
             }
         });
 
         btnCancel.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                primaryStage.close();
+                pizzaStage.close();
             }
         });
 
@@ -237,8 +272,8 @@ public class App extends Application {
         root.setPadding(new Insets(10, 10, 10, 10));
         root.setSpacing(5);
         root.getChildren().addAll(lblSizes, lvSizes, lblToppings, toppings, lblExtras, extras, options);
-        primaryStage.setScene(new Scene(root, 575, 350));
-        primaryStage.show();
+        pizzaStage.setScene(new Scene(root, 575, 350));
+        pizzaStage.show();
     }
 
     public static void ShowMessage(String message) {
@@ -255,6 +290,7 @@ public class App extends Application {
         alert.setHeaderText(message);
         alert.setContentText("Press OK to delete this item.");
         Optional<ButtonType> result = alert.showAndWait();
+        System.out.println(result.get());
         System.out.println(result.get() == ButtonType.OK);
         return result.isPresent() ? result.get() == ButtonType.OK : false;
     }

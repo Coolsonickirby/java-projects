@@ -67,8 +67,12 @@ public class Pizza {
         return this.toppings.stream().map(entry -> entry.getType()).collect(Collectors.joining(" - "));
     }
 
-    public String getTotalPriceString(){
-        return String.format("%s", App.FORMATTER.format(this.toppings.stream().collect(Collectors.summingDouble(Topping::getPrice)) + this.pizzaSize.getPrice()));
+    public double getPrice(){
+        return this.toppings.stream().collect(Collectors.summingDouble(Topping::getPrice)) + this.pizzaSize.getPrice();
+    }
+
+    public String getPriceString(){
+        return App.FORMATTER.format(this.getPrice());
     }
 
 }

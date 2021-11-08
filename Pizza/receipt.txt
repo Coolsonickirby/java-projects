@@ -1,0 +1,21 @@
+Cashier: Ali Hussain
+Pizza #1
+	Size:
+		Large - 15.00
+	Toppings:
+		Cheese - 0.00
+		Olives - 1.00
+		Peppers - 1.00
+	Notes: 
+		Price: 17.00
+Pizza #2
+	Size:
+		Extra Large - 19.00
+	Toppings:
+		Cheese - 0.00
+		Meat - 1.00
+	Notes: Extra Cheese
+	       Extra Meat
+		Price: 20.00
+------------------------------------------------------------------------
+		Total Price: 37.00

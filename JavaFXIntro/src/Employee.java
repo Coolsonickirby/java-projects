@@ -1,3 +1,11 @@
+/*|----------------------------------------------------------------|*
+ *| CIS-171 Java Programming                                       |*
+ *| Assignment #12 & #13 - Intro to FX 1 & 2                       |*
+ *| Written By: Ali Hussain (Coolsonickirby/Random)                |*
+ *| Tested with: Java 11 & JavaFX 11.0.2                           |*
+ *|----------------------------------------------------------------|*
+ */
+
 import javafx.beans.property.*;
 
 public class Employee {

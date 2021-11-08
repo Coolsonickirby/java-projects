@@ -1,3 +1,14 @@
+/*|----------------------------------------------------------------|*
+ *| CIS-171 Java Programming                                       |*
+ *| Assignment #12 & #13 - Intro to FX 1 & 2                       |*
+ *| Written By: Ali Hussain (Coolsonickirby/Random)                |*
+ *| Tested with: Java 11 & JavaFX 11.0.2                           |*
+ *|                                                                |*
+ *| Notes: Man, it's been a while since I made a GUI app and this  |*
+ *| was fun to work on! -------------------------------------------|*
+ *|----------------------------------------------------------------|*
+ */
+
 import java.time.LocalDate;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -22,7 +33,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.scene.text.Font;
 import javafx.stage.WindowEvent;
@@ -74,6 +84,8 @@ public class App extends Application {
 
         GridPane.setConstraints(iconContainer, 0, 0);
         GridPane.setConstraints(title, 1, 0);
+        GridPane.setHalignment(title, HPos.CENTER);
+
         grid.getChildren().addAll(iconContainer, title);
 
         Label lblName = new Label("Employee Name:");

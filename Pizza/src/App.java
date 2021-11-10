@@ -72,11 +72,10 @@ public class App extends Application {
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setTitle("Pizza Menu");
-        primaryStage.setResizable(false);
 
         Label lblCashier = new Label("Cashier Name:");
         TextField txtCashier = new TextField();
-        txtCashier.setOnKeyTyped(ev -> CASHIER_NAME = txtCashier.getText());
+        txtCashier.setOnKeyReleased(ev -> CASHIER_NAME = txtCashier.getText());
 
         Button btnAdd = new Button("Add Pizza");
         Button btnEdit = new Button("Edit Pizza");
@@ -102,10 +101,7 @@ public class App extends Application {
 
         TABLE_VIEW.setItems(PIZZAS);
         TABLE_VIEW.getColumns().addAll(pizzaID, pizzaSize, pizzaToppings, pizzaExtras, pizzaPrice);
-        TABLE_VIEW.getColumns().stream().forEach(column -> {
-            column.setMinWidth(120);
-            column.setResizable(false);
-        });
+        TABLE_VIEW.getColumns().stream().forEach(column -> column.setMinWidth(120));
 
         btnAdd.setOnAction(ev -> showPizzaMenu(0));
 
@@ -119,8 +115,10 @@ public class App extends Application {
 
         btnDel.setOnAction(ev -> {
             if (TABLE_VIEW.getSelectionModel().selectedItemProperty().get() != null) {
-                System.out.println(ShowPrompt("Hi"));
-                PIZZAS.remove(TABLE_VIEW.getSelectionModel().selectedIndexProperty().get());
+                int pizzaIdx = TABLE_VIEW.getSelectionModel().selectedIndexProperty().get();
+                if(ShowPrompt(String.format("Are you sure you want to delete Pizza #%s?", PIZZAS.get(pizzaIdx).getId()))){
+                  PIZZAS.remove(pizzaIdx);
+                }
             }else{
                 ShowMessage("Please select an item in the table first!");
             }
@@ -152,7 +150,7 @@ public class App extends Application {
 
         StringBuilder result = new StringBuilder();
         DoubleAdder totalPrice = new DoubleAdder();
-        result.append("Cashier: " + CASHIER_NAME + "\n");
+        if(!CASHIER_NAME.equals("")){ result.append("Cashier: " + CASHIER_NAME + "\n"); }
         PIZZAS.stream().forEach(pizza -> {
             result.append(String.format("Pizza #%s\n", pizza.getId()));
             result.append(String.format("\tSize:\n\t\t%s - %s\n", pizza.getPizzaSize().getSize(), FORMATTER.format(pizza.getPizzaSize().getPrice())));
@@ -292,6 +290,6 @@ public class App extends Application {
         Optional<ButtonType> result = alert.showAndWait();
         System.out.println(result.get());
         System.out.println(result.get() == ButtonType.OK);
-        return result.isPresent() ? result.get() == ButtonType.OK : false;
+        return result.isPresent() ? result.get() == ButtonType.OK : false; // Only works in jGrasp for some reason
     }
 }

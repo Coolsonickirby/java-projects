@@ -37,7 +37,7 @@ import java.io.*;
 
 public class Main {
     public static final boolean IS_DEBUG = new File("debug").exists();
-    public static final float MUSIC_VOL = 0.5f; // Range: 0f - 1f
+    public static final float MUSIC_VOL = 0.8f; // Range: 0f - 1f
     public static final float SFX_VOL = 1f; // Range: 0f - 1f
 
     public static Scanner reader = new Scanner(System.in); // Create globally so main and prompt can reference it

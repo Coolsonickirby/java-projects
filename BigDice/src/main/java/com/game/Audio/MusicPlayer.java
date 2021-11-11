@@ -20,7 +20,6 @@ import java.util.stream.Collectors;
 public class MusicPlayer {
     private static ArrayList<MusicEntry> musicEntries;
     private static int current_song_index;
-    private static long musicPausePosition;
     private static Clip musicSource;
     private static boolean isReady = false;
     private static float volume = 1f;
@@ -97,7 +96,6 @@ public class MusicPlayer {
         try {
             if(!MusicPlayer.isReady){ return; }
     
-            MusicPlayer.musicPausePosition = musicSource.getMicrosecondPosition();
             MusicPlayer.musicSource.stop();
         } catch (Exception e) {
             if(Main.IS_DEBUG){ e.printStackTrace(); }
@@ -110,7 +108,6 @@ public class MusicPlayer {
     
             MusicEntry currentEntry = MusicPlayer.musicEntries.get(MusicPlayer.current_song_index);
 
-            MusicPlayer.musicSource.setMicrosecondPosition(MusicPlayer.musicPausePosition);
             MusicPlayer.musicSource.start();
 
             if(currentEntry.getLoopStart() > 0 && currentEntry.getLoopEnd() > 0){

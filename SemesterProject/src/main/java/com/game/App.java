@@ -13,7 +13,7 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 public class App extends Application {
-    public static final int SCREEN_WIDTH = 512;
+    public static final int SCREEN_WIDTH = 1024;
     public static final int SCREEN_HEIGHT = 512;
     public static Stage MAIN_STAGE = null;
     public static ArrayList<Sprite> SPRITES = new ArrayList<Sprite>();
@@ -35,8 +35,8 @@ public class App extends Application {
         SPRITES.get(0).setWidth(16);
         SPRITES.get(0).setXRect(0);
         SPRITES.get(0).setYRect(8);
-        SPRITES.get(0).setXSize(20);
-        SPRITES.get(0).setYSize(20);
+        SPRITES.get(0).setXSize(100);
+        SPRITES.get(0).setYSize(100);
 
         AnimationTimer GAME_LOOP = new AnimationTimer() {
             @Override

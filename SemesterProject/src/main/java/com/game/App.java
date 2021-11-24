@@ -2,7 +2,6 @@ package com.game;
 
 import java.util.ArrayList;
 
-import com.game.Entities.Player;
 import com.game.Entities.Sprite;
 import com.game.Managers.RenderManager;
 
@@ -24,25 +23,18 @@ public class App extends Application {
     @Override
     public void start(Stage primaryStage) {
         MAIN_STAGE = primaryStage;
-        MAIN_STAGE.setTitle("Mario Party FX");
+        MAIN_STAGE.setTitle("Tetris FX");
         MAIN_STAGE.setResizable(false);
         Scene scene = new Scene(RenderManager.RENDER_PANE, SCREEN_WIDTH, SCREEN_HEIGHT);
         MAIN_STAGE.setScene(scene);
         MAIN_STAGE.show();
 
-        SPRITES.add(new Player(new Image(App.class.getResourceAsStream("res/mario.png"))));
-        SPRITES.get(0).setHeight(16);
-        SPRITES.get(0).setWidth(16);
-        SPRITES.get(0).setXRect(0);
-        SPRITES.get(0).setYRect(8);
-        SPRITES.get(0).setXSize(100);
-        SPRITES.get(0).setYSize(100);
-
         AnimationTimer GAME_LOOP = new AnimationTimer() {
             @Override
             public void handle(long now){
                 // Game loop here
-                SPRITES.forEach( sprite -> sprite.draw() );
+                RenderManager.Clear();
+                RenderManager.drawHUD();
             }
         };
 

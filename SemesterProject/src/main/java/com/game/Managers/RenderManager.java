@@ -33,8 +33,8 @@ public class RenderManager {
         img.setSmooth(false);
         img.setViewport(rect);
         img.relocate(sprite.getX(), sprite.getY());
-        img.setFitWidth(sprite.getXSize());
-        img.setFitHeight(sprite.getYSize());
+        img.setFitWidth(sprite.getWidth());
+        img.setFitHeight(sprite.getHeight());
         RENDER_PANE.getChildren().add(img);
     }
 }

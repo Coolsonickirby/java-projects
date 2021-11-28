@@ -8,7 +8,6 @@ import com.game.Managers.RenderManager;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 public class App extends Application {
@@ -23,7 +22,7 @@ public class App extends Application {
     @Override
     public void start(Stage primaryStage) {
         MAIN_STAGE = primaryStage;
-        MAIN_STAGE.setTitle("Tetris FX");
+        MAIN_STAGE.setTitle("Flappy Bird FX");
         MAIN_STAGE.setResizable(false);
         Scene scene = new Scene(RenderManager.RENDER_PANE, SCREEN_WIDTH, SCREEN_HEIGHT);
         MAIN_STAGE.setScene(scene);

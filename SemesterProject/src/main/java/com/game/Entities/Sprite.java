@@ -12,24 +12,6 @@ public class Sprite {
     private double yRect;
     private double width;
     private double height;
-    private double xSize;
-    private double ySize;
-
-    public double getXSize() {
-        return xSize;
-    }
-
-    public void setXSize(double xSize) {
-        this.xSize = xSize;
-    }
-
-    public double getYSize() {
-        return ySize;
-    }
-
-    public void setYSize(double ySize) {
-        this.ySize = ySize;
-    }
 
     public Sprite(Image spritesheet) {
         this.spritesheet = spritesheet;

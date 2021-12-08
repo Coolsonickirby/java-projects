@@ -11,7 +11,6 @@ public class Sprite {
     private double yRect;
     private double xSize;
     private double ySize;
-
     private double width;
     private double height;
     private int layer;

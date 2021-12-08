@@ -8,7 +8,7 @@ import javafx.scene.image.Image;
 public class Player extends Sprite {
     private double vSpeed = 0.0;
     private double jSpeed = 300;
-    private double fallingSpeed = 200;
+    private double fallingSpeed = 50;
 
     public Player(Image spritesheet){
         super(spritesheet);
@@ -23,8 +23,8 @@ public class Player extends Sprite {
     @Override
     public void update(){
         // Player physics go here
-        System.out.println(vSpeed);
-        this.setY(this.getY() + (vSpeed * FPS.getDeltaTime()));
-        vSpeed += fallingSpeed * FPS.getDeltaTime();
+        // System.out.println(FPS.getDeltaTime());
+        // this.getTransform().YPos += vSpeed * FPS.getDeltaTime();
+        // vSpeed += fallingSpeed * FPS.getDeltaTime();
     }
 }

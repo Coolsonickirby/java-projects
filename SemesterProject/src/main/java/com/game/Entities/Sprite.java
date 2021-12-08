@@ -6,8 +6,7 @@ import javafx.scene.image.Image;
 
 public class Sprite {
     private Image spritesheet;
-    private double x;
-    private double y;
+    private Transform transform;
     private double xRect;
     private double yRect;
     private double xSize;
@@ -19,10 +18,19 @@ public class Sprite {
 
     public Sprite(Image spritesheet) {
         this.spritesheet = spritesheet;
+        this.transform = new Transform();
     }
 
     public void onClick(){
         System.out.println("Sprite clicked!");
+    }
+
+    public Transform getTransform() {
+        return transform;
+    }
+
+    public void setTransform(Transform transform) {
+        this.transform = transform;
     }
 
     public Image getSpritesheet() {
@@ -47,22 +55,6 @@ public class Sprite {
 
     public void setYSize(double ySize) {
         this.ySize = ySize;
-    }
-
-    public double getX() {
-        return x;
-    }
-
-    public void setX(double x) {
-        this.x = x;
-    }
-
-    public double getY() {
-        return y;
-    }
-
-    public void setY(double y) {
-        this.y = y;
     }
 
     public double getXRect() {

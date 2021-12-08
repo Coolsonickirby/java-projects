@@ -14,8 +14,10 @@ public class MainMenu extends Scene {
         test.setYSize(12);
         test.setWidth(17 * 2);
         test.setHeight(12 * 2);
-        test.setX(App.SCREEN_WIDTH / 2);
-        test.setY(App.SCREEN_HEIGHT / 2);
+        test.getTransform().XPos = App.SCREEN_WIDTH / 2;
+        test.getTransform().YPos = App.SCREEN_HEIGHT / 2;
+        test.getTransform().XRot = 20;
+        test.getTransform().YRot = 20;
         this.SPRITES.add(test);
     }
     

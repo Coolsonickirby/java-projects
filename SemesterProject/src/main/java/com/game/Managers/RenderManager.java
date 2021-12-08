@@ -6,6 +6,7 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
+import javafx.scene.transform.Rotate;
 import javafx.scene.Group;
 
 public class RenderManager {
@@ -34,6 +35,13 @@ public class RenderManager {
         background.setStyle("-fx-background-color: #00ff00");
         RENDER_PANE.getChildren().add(background);
     }
+
+    private static double ConvertXYToAngle(double x1, double y1, double x2, double y2){
+        double deltaX = x2 - x1;
+        double deltaY = y2 - y1;
+        double rad = Math.atan2(deltaY, deltaX); // In radians
+        return rad * (180 / Math.PI);
+    }
     
     public static void Draw(Sprite sprite){
         ImageView img = new ImageView(sprite.getSpritesheet());
@@ -42,7 +50,13 @@ public class RenderManager {
         img.setViewport(rect);
         img.setFitWidth(sprite.getWidth());
         img.setFitHeight(sprite.getHeight());
-        img.relocate(sprite.getX(), sprite.getY());
+        img.relocate(sprite.getTransform().XPos, sprite.getTransform().YPos);
+        
+        
+
+        img.getTransforms().add(new Rotate(ConvertXYToAngle(
+            sprite.getTransform().XRot, sprite.getTransform().YRot, sprite.getTransform().XRot, sprite.getTransform().YRot
+        )));
 
         img.setOnMousePressed(event -> {
             sprite.onClick();

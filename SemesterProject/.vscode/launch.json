@@ -5,7 +5,7 @@
             "name": "Launch App",
             "request": "launch",
             "mainClass": "com.game.App",
-            "vmArgs": "--module-path ../libs/javafx-sdk-11.0.2/lib --add-modules=javafx.base,javafx.controls,javafx.fxml,javafx.graphics,javafx.media,javafx.swing,javafx.web",
+            "vmArgs": "--module-path /usr/share/openjfx/lib --add-modules=javafx.base,javafx.controls,javafx.fxml,javafx.graphics,javafx.media,javafx.swing,javafx.web",
             "projectName": "SemesterProject"
         },
         {
@@ -16,13 +16,5 @@
             "vmArgs": "--module-path ../libs/javafx-sdk-11.0.2/lib --add-modules=javafx.base,javafx.controls,javafx.fxml,javafx.graphics,javafx.media,javafx.swing,javafx.web",
             "projectName": "SemesterProject_158978a2"
         },
-        {
-            "type": "java",
-            "name": "Launch App",
-            "request": "launch",
-            "mainClass": "com.game.App",
-            "vmArgs": "--module-path /usr/share/openjfx/lib --add-modules=javafx.base,javafx.controls,javafx.fxml,javafx.graphics,javafx.media,javafx.swing,javafx.web",
-            "projectName": "SemesterProject_2e7daad2"
-        }
     ]
 }

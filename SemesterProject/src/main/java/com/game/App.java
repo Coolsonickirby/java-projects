@@ -37,9 +37,9 @@ public class App extends Application {
 
         SCENES.put(SceneType.MAIN_MENU, new MainMenu());
         
-        try {
-            TimeUnit.SECONDS.sleep(5);
-        } catch (Exception e) {}
+        // try {
+        //     TimeUnit.SECONDS.sleep(5);
+        // } catch (Exception e) {}
 
         FPS.calcBeginTime();
 

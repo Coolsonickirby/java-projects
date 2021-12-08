@@ -10,11 +10,19 @@ public class Sprite {
     private double y;
     private double xRect;
     private double yRect;
+    private double xSize;
+    private double ySize;
+
     private double width;
     private double height;
+    private int layer;
 
     public Sprite(Image spritesheet) {
         this.spritesheet = spritesheet;
+    }
+
+    public void onClick(){
+        System.out.println("Sprite clicked!");
     }
 
     public Image getSpritesheet() {
@@ -23,6 +31,22 @@ public class Sprite {
 
     public void setSpritesheet(Image spritesheet) {
         this.spritesheet = spritesheet;
+    }
+
+    public double getXSize() {
+        return xSize;
+    }
+
+    public void setXSize(double xSize) {
+        this.xSize = xSize;
+    }
+
+    public double getYSize() {
+        return ySize;
+    }
+
+    public void setYSize(double ySize) {
+        this.ySize = ySize;
     }
 
     public double getX() {
@@ -73,7 +97,19 @@ public class Sprite {
         this.height = height;
     }
 
+    public int getLayer() {
+        return layer;
+    }
+
+    public void setLayer(int layer) {
+        this.layer = layer;
+    }
+
     public void draw(){
         RenderManager.Draw(this);
+    }
+
+    public void update(){
+        // Do nothing in general
     }
 }

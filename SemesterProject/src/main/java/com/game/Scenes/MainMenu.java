@@ -1,8 +1,10 @@
 package com.game.Scenes;
 
 import com.game.App;
+import com.game.Entities.Pipe;
 import com.game.Entities.Player;
 import com.game.Entities.Sprite;
+import com.game.Managers.RenderManager;
 
 public class MainMenu extends Scene {
     public MainMenu(){
@@ -22,18 +24,18 @@ public class MainMenu extends Scene {
     	this.SPRITES.add(title);
     	
         Player test = new Player(App.SPRITESHEET);
-        test.setLayer(0);
-        test.setXRect(3);
-        test.setYRect(491);
-        test.setXSize(17);
-        test.setYSize(12);
-        test.setWidth(17 * 2);
-        test.setHeight(12 * 2);
         test.getTransform().XPos = ((App.SCREEN_WIDTH - test.getWidth()) / 2);
         test.getTransform().YPos = ((App.SCREEN_HEIGHT - test.getHeight()) / 2);
         test.getTransform().XRot = 3;
         test.getTransform().YRot = 4;
+
+        double randomPipePos = 100;
+        Pipe pipe = new Pipe(App.SPRITESHEET);
+        pipe.getTransform().XPos = App.SCREEN_WIDTH - 50;
+        pipe.getTransform().YPos = (App.SCREEN_HEIGHT - RenderManager.GROUND_HEIGHT) - randomPipePos;
+
         this.SPRITES.add(test);
+        this.SPRITES.add(pipe);
     }
     
     @Override

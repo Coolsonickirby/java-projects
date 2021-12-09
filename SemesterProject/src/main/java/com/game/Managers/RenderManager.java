@@ -12,6 +12,7 @@ import javafx.scene.Group;
 public class RenderManager {
     public static Pane RENDER_PANE = new Pane();
     public static int ROTATE_DEGREE = 0;
+    public static double GROUND_HEIGHT = 75.0;
 
     public static void Clear(){
         RENDER_PANE.getChildren().removeAll();
@@ -32,15 +33,16 @@ public class RenderManager {
     public static void DrawBackground(){
         Pane background = new Pane();
         background.setPrefSize(App.SCREEN_WIDTH, App.SCREEN_HEIGHT);
-        background.setStyle("-fx-background-color: #00ff00");
-        RENDER_PANE.getChildren().add(background);
-    }
+        background.setStyle("-fx-background-color: #a0c0ff");
+        background.setTranslateZ(-10);
+        
+        Pane ground = new Pane();
+        ground.setPrefSize(App.SCREEN_WIDTH, GROUND_HEIGHT);
+        ground.setTranslateY(App.SCREEN_HEIGHT - GROUND_HEIGHT);
+        ground.setStyle("-fx-background-color: #ff0000");
+        ground.setTranslateZ(0);
 
-    private static double ConvertXYToAngle(double x1, double y1, double x2, double y2){
-        double deltaX = x2 - x1;
-        double deltaY = y2 - y1;
-        double rad = Math.atan2(deltaY, deltaX); // In radians
-        return rad * (180 / Math.PI);
+        RENDER_PANE.getChildren().addAll(background, ground);
     }
     
     public static void Draw(Sprite sprite){
@@ -51,13 +53,9 @@ public class RenderManager {
         img.setFitWidth(sprite.getWidth());
         img.setFitHeight(sprite.getHeight());
         img.relocate(sprite.getTransform().XPos, sprite.getTransform().YPos);
+        img.setTranslateZ(sprite.getLayer());
         
-        
-        
-        // Doesn't Work
-        img.getTransforms().add(new Rotate(ConvertXYToAngle(
-            sprite.getTransform().XRot, sprite.getTransform().YRot, sprite.getTransform().XRot, sprite.getTransform().YRot
-        )));
+        // Add rotation support
 
         img.setOnMousePressed(event -> {
             sprite.onClick();

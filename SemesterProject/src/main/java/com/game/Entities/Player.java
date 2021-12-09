@@ -15,10 +15,10 @@ public class Player extends Sprite {
     private int currentAnimationFrame = 0;
     private int[][] ANIMATION = new int[][] {
         new int[] { 0, 3, 491 },
-        new int[] { 15, 31, 491 },
-        new int[] { 30, 59, 491 },
-        new int[] { 45, 31, 491 },
-        new int[] { 60, 3, 491 },
+        new int[] { 20, 31, 491 },
+        new int[] { 35, 59, 491 },
+        new int[] { 50, 31, 491 },
+        new int[] { 65, 3, 491 },
     };
 
     public Player(Image spritesheet){

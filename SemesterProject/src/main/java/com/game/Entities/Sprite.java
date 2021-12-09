@@ -3,9 +3,10 @@ package com.game.Entities;
 import com.game.Managers.RenderManager;
 
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 public class Sprite {
-    private Image spritesheet;
+    private ImageView spritesheet;
     private Transform transform;
     private double xRect;
     private double yRect;
@@ -16,7 +17,7 @@ public class Sprite {
     private int layer;
 
     public Sprite(Image spritesheet) {
-        this.spritesheet = spritesheet;
+        this.spritesheet = new ImageView(spritesheet);
         this.transform = new Transform();
     }
 
@@ -32,11 +33,11 @@ public class Sprite {
         this.transform = transform;
     }
 
-    public Image getSpritesheet() {
-        return spritesheet;
+    public ImageView getSpritesheet() {
+        return this.spritesheet;
     }
 
-    public void setSpritesheet(Image spritesheet) {
+    public void setSpritesheet(ImageView spritesheet) {
         this.spritesheet = spritesheet;
     }
 

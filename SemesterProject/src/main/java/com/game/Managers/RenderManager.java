@@ -15,7 +15,7 @@ public class RenderManager {
     public static double GROUND_HEIGHT = 75.0;
 
     public static void Clear(){
-        RENDER_PANE.getChildren().removeAll();
+        RENDER_PANE.getChildren().clear();
     }
     
     public static void DrawHUD(){
@@ -46,7 +46,7 @@ public class RenderManager {
     }
     
     public static void Draw(Sprite sprite){
-        ImageView img = new ImageView(sprite.getSpritesheet());
+        ImageView img = sprite.getSpritesheet();
         Rectangle2D rect = new Rectangle2D(sprite.getXRect(), sprite.getYRect(), sprite.getXSize(), sprite.getYSize());
         img.setSmooth(false);
         img.setViewport(rect);

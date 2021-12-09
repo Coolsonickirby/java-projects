@@ -11,11 +11,14 @@ public class Player extends Sprite {
     private double jSpeed = 55;
     private double fallingSpeed = -100;
     private boolean IS_DEAD = false;
+    private int currentKeyFrame = 0;
     private int currentAnimationFrame = 0;
     private int[][] ANIMATION = new int[][] {
-        new int[] { 3, 491 },
-        new int[] { 31, 491 },
-        new int[] { 59, 491 }
+        new int[] { 0, 3, 491 },
+        new int[] { 15, 31, 491 },
+        new int[] { 30, 59, 491 },
+        new int[] { 45, 31, 491 },
+        new int[] { 60, 3, 491 },
     };
 
     public Player(Image spritesheet){
@@ -47,15 +50,22 @@ public class Player extends Sprite {
     	if(!IS_DEAD) {
     		this.getTransform().YPos -= (vSpeed * FPS.getDeltaTime());
             vSpeed += fallingSpeed * FPS.getDeltaTime();
-
-            this.setXRect(ANIMATION[currentAnimationFrame][0]);
-            this.setYRect(ANIMATION[currentAnimationFrame][1]);
-            currentAnimationFrame++;
-            currentAnimationFrame = currentAnimationFrame >= ANIMATION.length ? 0 : currentAnimationFrame;
+            System.out.println(currentKeyFrame);
+            if(currentKeyFrame >= ANIMATION[currentAnimationFrame][0]){
+                this.setXRect(ANIMATION[currentAnimationFrame][1]);
+                this.setYRect(ANIMATION[currentAnimationFrame][2]);
+                currentAnimationFrame++;
+                if(currentAnimationFrame >= ANIMATION.length){
+                    currentAnimationFrame = 0;
+                    currentKeyFrame = 0;
+                }
+            }
+            currentKeyFrame++;
     	}
         
         if(this.getTransform().YPos >= ((App.SCREEN_HEIGHT - RenderManager.GROUND_HEIGHT) - this.getHeight())){
             IS_DEAD = true;
         }
+
     }
 }

@@ -69,6 +69,10 @@ public class Player extends Sprite {
 
     @Override
     public void update(){
+        if(this.getTransform().YPos >= this.GROUND_HEIGHT){
+            IS_DEAD = true;
+        }
+
         // Player physics go here
         this.getTransform().YPos -=  (this.getTransform().YPos < this.GROUND_HEIGHT ? (vSpeed * FPS.getDeltaTime()) : 0);
         vSpeed += fallingSpeed * FPS.getDeltaTime();
@@ -78,16 +82,6 @@ public class Player extends Sprite {
             this.getTransform().XRot -= Math.abs((vSpeed * FPS.getDeltaTime()) * 10);
         }
         
-        animation();
-
-        if(this.getTransform().YPos >= this.GROUND_HEIGHT){
-            IS_DEAD = true;
-        }
-    }
-
-    @Override
-    public void fixedUpdate(){
-        if(IS_DEAD) {return;}
         animation();
     }
 }

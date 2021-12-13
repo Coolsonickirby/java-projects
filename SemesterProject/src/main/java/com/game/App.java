@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 import com.game.Managers.RenderManager;
-import com.game.Scenes.MainMenu;
+import com.game.Scenes.Game;
 import com.game.Scenes.SceneType;
 
 import javafx.animation.AnimationTimer;
@@ -17,12 +17,12 @@ import javafx.stage.Stage;
 
 public class App extends Application {
     public static final int SCREEN_WIDTH = 512;
-    public static final int SCREEN_HEIGHT = 512;
+    public static final int SCREEN_HEIGHT = 500;
     public static Stage MAIN_STAGE = null;
     public static Image SPRITESHEET = new Image(App.class.getResourceAsStream("Resources/spritesheet.png"));
 
-    public static HashMap<SceneType, com.game.Scenes.Scene> SCENES = new HashMap<SceneType, com.game.Scenes.Scene>();
-    public static SceneType CURRENT_SCENE = SceneType.MAIN_MENU;
+    public static com.game.Scenes.Scene ACTIVE_SCENE = new Game();
+    public static SceneType CURRENT_SCENE = SceneType.GAME;
     public static void main(String[] args) {
         launch(args);
     }
@@ -34,9 +34,7 @@ public class App extends Application {
         Scene scene = new Scene(RenderManager.RENDER_PANE, SCREEN_WIDTH, SCREEN_HEIGHT);
         MAIN_STAGE.setScene(scene);
         MAIN_STAGE.show();
-        
-        SCENES.put(SceneType.MAIN_MENU, new MainMenu());
-        
+                
         FPS.calcBeginTime();
         RenderManager.Setup();
 
@@ -46,7 +44,11 @@ public class App extends Application {
                 // Game loop here
                 RenderManager.Clear();
                 RenderManager.DrawBackground();
-                CURRENT_SCENE = SCENES.get(CURRENT_SCENE).Run();
+                CURRENT_SCENE = ACTIVE_SCENE.Run();
+                if(CURRENT_SCENE == SceneType.MAIN_MENU){
+                    ACTIVE_SCENE = new Game();
+                }
+                RenderManager.UpdateLayers();
                 FPS.calcDeltaTime();
             }
         };
@@ -55,7 +57,7 @@ public class App extends Application {
     }
 
     public static com.game.Scenes.Scene getCurrentScene(){
-        return SCENES.get(CURRENT_SCENE);
+        return ACTIVE_SCENE;
     }
 
     public static int getRandomNumber(int min, int max) {

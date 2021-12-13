@@ -15,21 +15,28 @@ public class Sprite {
     private double ySize;
     private double width;
     private double height;
-    private String tag;
-    private int layer;
+    private SpriteData spriteData;
+    
+    public SpriteData getSpriteData() {
+        return spriteData;
+    }
+
+    public void setSpriteData(SpriteData spriteData) {
+        this.spriteData = spriteData;
+    }
 
     public String getTag() {
-        return tag;
+        return spriteData.tag;
     }
 
     public void setTag(String tag) {
-        this.tag = tag;
+        this.spriteData.tag = tag;
     }
 
     public Sprite(Image spritesheet) {
         this.spritesheet = new ImageView(spritesheet);
         this.transform = new Transform();
-        this.tag = Sprite.TAG;
+        this.spriteData = new SpriteData(Sprite.TAG, 0);
     }
 
     public void onClick(){
@@ -101,11 +108,11 @@ public class Sprite {
     }
 
     public int getLayer() {
-        return layer;
+        return spriteData.layer;
     }
 
     public void setLayer(int layer) {
-        this.layer = layer;
+        this.spriteData.layer = layer;
     }
 
     public void draw(){

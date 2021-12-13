@@ -1,6 +1,7 @@
 package com.game.Entities;
 
 import com.game.App;
+import com.game.FPS;
 
 import javafx.scene.image.Image;
 
@@ -39,6 +40,6 @@ public class Pipe extends Sprite{
 
     @Override
     public void update(){
-        this.getTransform().XPos -= 1;
+        this.getTransform().XPos -= (FPS.getDeltaTime() * 100);
     }
 }

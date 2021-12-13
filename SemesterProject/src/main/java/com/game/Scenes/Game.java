@@ -1,40 +1,46 @@
 package com.game.Scenes;
 
+import java.rmi.server.RemoteStub;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import com.game.App;
+import com.game.FPS;
 import com.game.Entities.Pipe;
 import com.game.Entities.Player;
 import com.game.Entities.Sprite;
+import com.game.Entities.SpriteData;
 import com.game.Managers.RenderManager;
 
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 
-public class MainMenu extends Scene {
+public class Game extends Scene {
     private Player bird = null;
     private ArrayList<Pipe[]> PIPE_PAIRS = new ArrayList<Pipe[]>();
     private ArrayList<Pipe[]> PIPES_TO_REMOVE = new ArrayList<Pipe[]>();
-    private final int GENERATE_PIPE_TIME = 200;
+    private final int GENERATE_PIPE_TIME = 2000;
+    private SceneType SCENE_TO_RET = SceneType.GAME;
     private int timer = 0;
+    private int score = 0;
 
-    public MainMenu(){
+    public Game(){
         // Initialize sprite stuff
     	
-    	Sprite title = new Sprite(App.SPRITESHEET);
-    	title.setXRect(351);
-    	title.setYRect(91);
+        // Game Name from spritesheet
+    	// Sprite title = new Sprite(App.SPRITESHEET);
+    	// title.setXRect(351);
+    	// title.setYRect(91);
     	
-    	title.setXSize(89);
-    	title.setYSize(24);
+    	// title.setXSize(89);
+    	// title.setYSize(24);
     	
-    	title.setWidth(title.getXSize() * 3);
-    	title.setHeight(title.getYSize() * 3);
-    	title.getTransform().XPos = ((App.SCREEN_WIDTH - title.getWidth()) / 2);
-    	title.getTransform().YPos = ((App.SCREEN_HEIGHT - title.getHeight()) / 2) - 200;
-    	this.SPRITES.add(title);
+    	// title.setWidth(title.getXSize() * 3);
+    	// title.setHeight(title.getYSize() * 3);
+    	// title.getTransform().XPos = ((App.SCREEN_WIDTH - title.getWidth()) / 2);
+    	// title.getTransform().YPos = ((App.SCREEN_HEIGHT - title.getHeight()) / 2) - 200;
+    	// this.SPRITES.add(title);
     	
         bird = new Player(App.SPRITESHEET);
         bird.getTransform().XPos = ((App.SCREEN_WIDTH - bird.getWidth()) / 2);
@@ -48,10 +54,10 @@ public class MainMenu extends Scene {
     
     public void CheckCollision(){
         ObservableList<Node> nodes = RenderManager.RENDER_PANE.getChildren();
-        Node playerNode = nodes.stream().filter(node -> node.getUserData() == Player.TAG).findFirst().orElse(null);
+        Node playerNode = nodes.stream().filter(node -> ((SpriteData)(node.getUserData())).tag == Player.TAG).findFirst().orElse(null);
         if(playerNode == null){ return; }
         
-        List<Node> pipeNodes = nodes.stream().filter(node -> node.getUserData() == Pipe.TAG).collect(Collectors.toList());
+        List<Node> pipeNodes = nodes.stream().filter(node -> ((SpriteData)(node.getUserData())).tag == Pipe.TAG).collect(Collectors.toList());
         
         for(Node pipeNode : pipeNodes){
             // Thank you to invariant for the intersection solution!
@@ -66,7 +72,10 @@ public class MainMenu extends Scene {
     @Override
     public SceneType Run(){
         this.SPRITES.forEach(sprite -> sprite.draw());
-        this.PIPE_PAIRS.forEach(pipes -> { pipes[0].draw(); pipes[1].draw();});
+        this.PIPE_PAIRS.forEach(pipes -> { 
+            pipes[0].draw(); 
+            pipes[1].draw();
+        });
 
         this.SPRITES.forEach(sprite -> sprite.update());
         this.PIPE_PAIRS.forEach(pipes -> { 
@@ -92,12 +101,16 @@ public class MainMenu extends Scene {
             timer = 0;
         }
 
-        timer++;
-        return super.Run();
+        timer += (FPS.getDeltaTime() * 1000);
+        return SCENE_TO_RET;
     }
 
     @Override
     public void mousePressed(){
+        if(bird.getIsDead()){
+            SCENE_TO_RET = SceneType.MAIN_MENU;
+        }
+
         this.bird.jump();
     }
 }

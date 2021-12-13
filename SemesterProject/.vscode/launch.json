@@ -2,11 +2,20 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch App",
+            "request": "launch",
+            "mainClass": "com.game.App",
+            "projectName": "SemesterProject_158978a2"
+        },
+        {
+            "type": "java",
             "name": "Flappy Bird FX (Windows)",
             "request": "launch",
             "mainClass": "com.game.App",
             "vmArgs": "--module-path ../libs/javafx-sdk-11.0.2/lib --add-modules=javafx.base,javafx.controls,javafx.fxml,javafx.graphics,javafx.media,javafx.swing,javafx.web",
-            "projectName": "SemesterProject"
+            "projectName": "SemesterProject",
+            "noDebug": true,
+            "__progressId": "69347bd7-e0e3-4a2e-9982-b8633983baaf"
         },
         {
             "type": "java",
@@ -15,6 +24,6 @@
             "mainClass": "com.game.App",
             "vmArgs": "--module-path /usr/share/openjfx/lib --add-modules=javafx.base,javafx.controls,javafx.fxml,javafx.graphics,javafx.media,javafx.swing,javafx.web",
             "projectName": "SemesterProject"
-        },
+        }
     ]
 }

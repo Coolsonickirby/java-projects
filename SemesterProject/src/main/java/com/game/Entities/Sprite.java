@@ -6,6 +6,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class Sprite {
+    private static final String TAG = "sprite";
     private ImageView spritesheet;
     private Transform transform;
     private double xRect;
@@ -14,11 +15,21 @@ public class Sprite {
     private double ySize;
     private double width;
     private double height;
+    private String tag;
     private int layer;
+
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
 
     public Sprite(Image spritesheet) {
         this.spritesheet = new ImageView(spritesheet);
         this.transform = new Transform();
+        this.tag = Sprite.TAG;
     }
 
     public void onClick(){
@@ -102,6 +113,10 @@ public class Sprite {
     }
 
     public void update(){
+        // Do nothing in general
+    }
+    
+    public void fixedUpdate(){
         // Do nothing in general
     }
 }

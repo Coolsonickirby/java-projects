@@ -16,7 +16,7 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 public class App extends Application {
-    public static final int SCREEN_WIDTH = 1024;
+    public static final int SCREEN_WIDTH = 512;
     public static final int SCREEN_HEIGHT = 512;
     public static Stage MAIN_STAGE = null;
     public static Image SPRITESHEET = new Image(App.class.getResourceAsStream("Resources/spritesheet.png"));
@@ -34,14 +34,11 @@ public class App extends Application {
         Scene scene = new Scene(RenderManager.RENDER_PANE, SCREEN_WIDTH, SCREEN_HEIGHT);
         MAIN_STAGE.setScene(scene);
         MAIN_STAGE.show();
-
+        
         SCENES.put(SceneType.MAIN_MENU, new MainMenu());
         
-        // try {
-        //     TimeUnit.SECONDS.sleep(5);
-        // } catch (Exception e) {}
-
         FPS.calcBeginTime();
+        RenderManager.Setup();
 
         AnimationTimer GAME_LOOP = new AnimationTimer() {
             @Override
@@ -55,6 +52,10 @@ public class App extends Application {
         };
 
         GAME_LOOP.start();
+    }
+
+    public static com.game.Scenes.Scene getCurrentScene(){
+        return SCENES.get(CURRENT_SCENE);
     }
 
     public static int getRandomNumber(int min, int max) {

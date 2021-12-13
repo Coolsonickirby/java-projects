@@ -13,6 +13,30 @@ public class RenderManager {
     public static Pane RENDER_PANE = new Pane();
     public static int ROTATE_DEGREE = 0;
     public static double GROUND_HEIGHT = 75.0;
+    private static Sprite BACKGROUND = new Sprite(App.SPRITESHEET);
+    private static Sprite GROUND = new Sprite(App.SPRITESHEET);
+
+    public static void Setup(){
+        RENDER_PANE.setOnMousePressed(event -> {
+            InputManager.MousePressed();
+        });
+
+        BACKGROUND.setXRect(0);
+        BACKGROUND.setYRect(0);
+        BACKGROUND.setXSize(144);
+        BACKGROUND.setYSize(256);
+        BACKGROUND.setWidth(App.SCREEN_WIDTH);
+        BACKGROUND.setHeight(App.SCREEN_HEIGHT - GROUND_HEIGHT);
+
+        GROUND.setXRect(292);
+        GROUND.setYRect(0);
+        GROUND.setXSize(168);
+        GROUND.setYSize(56);
+        GROUND.setWidth(App.SCREEN_WIDTH);
+        GROUND.setHeight(GROUND_HEIGHT);
+        GROUND.getTransform().YPos = App.SCREEN_HEIGHT - GROUND_HEIGHT;
+
+    }
 
     public static void Clear(){
         RENDER_PANE.getChildren().clear();
@@ -31,18 +55,8 @@ public class RenderManager {
     }
 
     public static void DrawBackground(){
-        Pane background = new Pane();
-        background.setPrefSize(App.SCREEN_WIDTH, App.SCREEN_HEIGHT);
-        background.setStyle("-fx-background-color: #a0c0ff");
-        background.setTranslateZ(-10);
-        
-        Pane ground = new Pane();
-        ground.setPrefSize(App.SCREEN_WIDTH, GROUND_HEIGHT);
-        ground.setTranslateY(App.SCREEN_HEIGHT - GROUND_HEIGHT);
-        ground.setStyle("-fx-background-color: #ff0000");
-        ground.setTranslateZ(0);
-
-        RENDER_PANE.getChildren().addAll(background, ground);
+        BACKGROUND.draw();
+        GROUND.draw();
     }
     
     public static void Draw(Sprite sprite){
@@ -52,10 +66,16 @@ public class RenderManager {
         img.setViewport(rect);
         img.setFitWidth(sprite.getWidth());
         img.setFitHeight(sprite.getHeight());
-        img.relocate(sprite.getTransform().XPos, sprite.getTransform().YPos);
+        img.setTranslateX(sprite.getTransform().XPos);
+        img.setTranslateY(sprite.getTransform().YPos);
         img.setTranslateZ(sprite.getLayer());
+        img.setScaleX(sprite.getTransform().XScale);
+        img.setScaleY(sprite.getTransform().YScale);
+        img.setScaleZ(sprite.getTransform().ZScale);
+        img.setUserData(sprite.getTag());
         
         // Add rotation support
+        img.setRotate(sprite.getTransform().XRot);
 
         img.setOnMousePressed(event -> {
             sprite.onClick();

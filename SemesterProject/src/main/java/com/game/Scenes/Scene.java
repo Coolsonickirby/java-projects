@@ -8,4 +8,8 @@ public class Scene {
     public SceneType Run(){
         return SceneType.MAIN_MENU;
     }
+
+    public void mousePressed(){
+        System.out.println("Mouse Pressed!");
+    }
 }

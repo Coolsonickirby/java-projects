@@ -20,6 +20,14 @@ public class Button extends Sprite {
         };
     }
 
+    public Action getAction(){
+        return this.actions;
+    }
+
+    public void setAction(Action action){
+        this.actions = action;
+    }
+
     @Override
     public void onClick(){
         this.actions.onClick();

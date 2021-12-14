@@ -11,7 +11,6 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
-import javafx.scene.transform.Rotate;
 import javafx.scene.Group;
 import javafx.scene.Node;
 
@@ -89,6 +88,10 @@ public class RenderManager {
         });
         
         RENDER_PANE.getChildren().add(img);
+    }
+
+    public static void AddNode(Node node){
+        RENDER_PANE.getChildren().add(node);
     }
 
     public static void UpdateLayers() {

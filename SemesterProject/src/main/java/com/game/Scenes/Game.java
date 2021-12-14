@@ -1,39 +1,44 @@
 package com.game.Scenes;
 
-import java.rmi.server.RemoteStub;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
 
 import com.game.App;
 import com.game.FPS;
 import com.game.Entities.Pipe;
 import com.game.Entities.Player;
-import com.game.Entities.Sprite;
 import com.game.Entities.SpriteData;
 import com.game.Managers.RenderManager;
 
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
+import javafx.scene.text.Text;
 
 public class Game extends Scene {
     private Player bird = null;
+    private int timer = 0;
+    private int score = 0;
+    private Text scoreText = null;
     private ArrayList<Pipe[]> PIPE_PAIRS = new ArrayList<Pipe[]>();
     private ArrayList<Pipe[]> PIPES_TO_REMOVE = new ArrayList<Pipe[]>();
     private final int GENERATE_PIPE_TIME = 2000;
     private SceneType SCENE_TO_RET = SceneType.GAME;
-    private int timer = 0;
-    private int score = 0;
 
     public Game(){	
         bird = new Player(App.SPRITESHEET);
-        bird.getTransform().XPos = ((App.SCREEN_WIDTH - bird.getWidth()) / 2);
-        bird.getTransform().YPos = ((App.SCREEN_HEIGHT - bird.getHeight()) / 2);
-        bird.getTransform().XRot = 0;
+        scoreText = new Text(String.valueOf(score));
+        scoreText.setUserData(new SpriteData("score", 999));
+        scoreText.setFont(App.FLAPPY_BIRD_FONT);
+        // Set text color to white
+        scoreText.setX(App.SCREEN_WIDTH / 2);
+        scoreText.setY(((App.SCREEN_HEIGHT / 2) - 200));
 
         PIPE_PAIRS.add(Pipe.GeneratePipePair());
 
         this.SPRITES.add(bird);
+        this.NODES.add(scoreText);
     }
     
     public void CheckCollision(){
@@ -60,11 +65,20 @@ public class Game extends Scene {
             pipes[0].draw(); 
             pipes[1].draw();
         });
+        this.NODES.forEach(node -> RenderManager.AddNode(node));
 
         this.SPRITES.forEach(sprite -> sprite.update());
         this.PIPE_PAIRS.forEach(pipes -> { 
             if(!bird.getIsDead()){
                 pipes[0].update(); pipes[1].update();
+            }
+
+            // Check if player in-between pipes - If so, increase score and set score to counted
+            if((pipes[0].getTransform().XPos + (pipes[0].getWidth() / 2)) < (App.SCREEN_WIDTH / 2) && !pipes[0].isScoreCounted() && !pipes[1].isScoreCounted()){
+                score++;
+                scoreText.setText(String.valueOf(score));
+                pipes[0].setScoreCounted(true);
+                pipes[1].setScoreCounted(true);
             }
             
             if(pipes[0].getTransform().XPos <= (pipes[0].getWidth() * -1)  || pipes[1].getTransform().XPos <= (pipes[1].getWidth() * -1)){

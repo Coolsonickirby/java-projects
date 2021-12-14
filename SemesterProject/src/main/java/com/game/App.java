@@ -1,10 +1,5 @@
 package com.game;
 
-import java.time.Duration;
-import java.time.Instant;
-import java.util.HashMap;
-import java.util.concurrent.TimeUnit;
-
 import com.game.Managers.RenderManager;
 import com.game.Managers.SceneManager;
 
@@ -12,6 +7,7 @@ import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 public class App extends Application {
@@ -20,7 +16,7 @@ public class App extends Application {
     public static final int SCREEN_HEIGHT = 500;
     public static Stage MAIN_STAGE = null;
     public static Image SPRITESHEET = new Image(App.class.getResourceAsStream("Resources/spritesheet.png"));
-
+    public static Font FLAPPY_BIRD_FONT = Font.loadFont(App.class.getResourceAsStream("Resources/04B_19__.TTF"), 50);
     public static void main(String[] args) {
         launch(args);
     }

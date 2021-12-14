@@ -7,6 +7,7 @@ import javafx.scene.image.Image;
 
 public class Pipe extends Sprite{
     public static final String TAG = "pipe";
+    private boolean scoreCounted = false;
     public Pipe(Image spritesheet){
         super(spritesheet);
         this.setLayer(0);
@@ -19,6 +20,17 @@ public class Pipe extends Sprite{
         this.setTag(Pipe.TAG);
         this.setLayer(-1);
     }
+    
+
+    public boolean isScoreCounted() {
+        return scoreCounted;
+    }
+
+
+    public void setScoreCounted(boolean scoreCounted) {
+        this.scoreCounted = scoreCounted;
+    }
+
 
     public static Pipe[] GeneratePipePair(){
         // Set X and Y Pos

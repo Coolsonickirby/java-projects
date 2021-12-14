@@ -1,12 +1,18 @@
 package com.game.Scenes;
 import com.game.Entities.Sprite;
+import com.game.Managers.RenderManager;
+
+import javafx.scene.Node;
+
 import java.util.ArrayList;
 
 public class Scene {
     public ArrayList<Sprite> SPRITES = new ArrayList<Sprite>();
+    public ArrayList<Node> NODES = new ArrayList<Node>();
 
     public SceneType Run(){
         SPRITES.forEach(sprite -> sprite.draw());
+        NODES.forEach(node -> RenderManager.AddNode(node));
         SPRITES.forEach(sprite -> sprite.update());
         return SceneType.MAIN_MENU;
     }

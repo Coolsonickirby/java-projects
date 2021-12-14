@@ -26,6 +26,7 @@ public class SceneManager {
     public static void Run(){
         if(CURRENT_SCENE != LAST_SCENE){
             LAST_SCENE = CURRENT_SCENE;
+            SCENE_HISTORY.add(LAST_SCENE);
             ACTIVE_SCENE = null;
         }
 

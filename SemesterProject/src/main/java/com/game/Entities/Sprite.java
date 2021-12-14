@@ -39,10 +39,6 @@ public class Sprite {
         this.spriteData = new SpriteData(Sprite.TAG, 0);
     }
 
-    public void onClick(){
-        System.out.println("Sprite clicked!");
-    }
-
     public Transform getTransform() {
         return transform;
     }
@@ -119,11 +115,15 @@ public class Sprite {
         RenderManager.Draw(this);
     }
 
+    public void onClick(){
+        // Do nothing in general
+    }
+
     public void update(){
         // Do nothing in general
     }
     
-    public void fixedUpdate(){
+    public void onHover(){
         // Do nothing in general
     }
 }

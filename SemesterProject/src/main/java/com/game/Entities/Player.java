@@ -12,7 +12,7 @@ public class Player extends Sprite {
     private double jSpeed = 100;
     private double fallingSpeed = -200;
     private boolean IS_DEAD = false;
-    private int currentKeyFrame = 0;
+    private double currentKeyFrame = 0;
     private int currentAnimationFrame = 0;
     private double GROUND_HEIGHT = 0;
     private int[][] ANIMATION = new int[][] {
@@ -64,7 +64,8 @@ public class Player extends Sprite {
             }
         }
         
-        currentKeyFrame++;
+        currentKeyFrame += 0.5;
+        System.out.println(currentKeyFrame);
     }
 
     @Override

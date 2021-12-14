@@ -6,6 +6,8 @@ public class Scene {
     public ArrayList<Sprite> SPRITES = new ArrayList<Sprite>();
 
     public SceneType Run(){
+        SPRITES.forEach(sprite -> sprite.draw());
+        SPRITES.forEach(sprite -> sprite.update());
         return SceneType.MAIN_MENU;
     }
 

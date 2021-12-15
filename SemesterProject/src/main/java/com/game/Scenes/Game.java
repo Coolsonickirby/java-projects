@@ -7,13 +7,18 @@ import java.util.stream.Collectors;
 
 import com.game.App;
 import com.game.FPS;
+import com.game.Entities.Action;
+import com.game.Entities.Button;
 import com.game.Entities.Pipe;
 import com.game.Entities.Player;
+import com.game.Entities.Sprite;
 import com.game.Entities.SpriteData;
 import com.game.Managers.RenderManager;
+import com.game.Managers.SceneManager;
 
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
 public class Game extends Scene {
@@ -26,40 +31,111 @@ public class Game extends Scene {
     private final int GENERATE_PIPE_TIME = 2000;
     private SceneType SCENE_TO_RET = SceneType.GAME;
 
+    private ArrayList<Sprite> GAME_OVER_SPRITES = new ArrayList<Sprite>();
+
     public Game(){	
+        // Create Instance of bird
         bird = new Player(App.SPRITESHEET);
+        this.SPRITES.add(bird);
+
+        // Create Instance of text for score
         scoreText = new Text(String.valueOf(score));
         scoreText.setUserData(new SpriteData("score", 999));
         scoreText.setFont(App.FLAPPY_BIRD_FONT);
-        // Set text color to white
+        scoreText.setFill(Color.WHITE);
+        scoreText.setStroke(Color.BLACK);
+        scoreText.setStrokeWidth(2);
         scoreText.setX(App.SCREEN_WIDTH / 2);
         scoreText.setY(((App.SCREEN_HEIGHT / 2) - 200));
+        this.NODES.add(scoreText);
+        
 
+        // Generate Pipe Pairs
         PIPE_PAIRS.add(Pipe.GeneratePipePair());
 
-        this.SPRITES.add(bird);
-        this.NODES.add(scoreText);
+        Button menuButton = new Button(App.SPRITESHEET);
+        menuButton.setXRect(462);
+        menuButton.setYRect(26);
+
+    	menuButton.setXSize(40);
+    	menuButton.setYSize(14);
+    	
+    	menuButton.setWidth(menuButton.getXSize() * 2);
+    	menuButton.setHeight(menuButton.getYSize() * 2);
+    	menuButton.getTransform().XPos = ((App.SCREEN_WIDTH - menuButton.getWidth()) / 2);
+    	menuButton.getTransform().YPos = ((App.SCREEN_HEIGHT - menuButton.getHeight())) - RenderManager.GROUND_HEIGHT - 20;
+
+        menuButton.setAction(new Action() {
+            @Override
+            public void onClick(){
+                SCENE_TO_RET = SceneType.MAIN_MENU;
+            }
+            
+            @Override
+            public void onHover() {
+                // Do Nothing
+            }
+        });
+        
+        menuButton.setLayer(999);
+        this.GAME_OVER_SPRITES.add(menuButton);
+
+        Button retryButton = new Button(App.SPRITESHEET);
+        retryButton.setXRect(354);
+        retryButton.setYRect(152);
+        
+    	retryButton.setXSize(52);
+    	retryButton.setYSize(29);
+
+        retryButton.setWidth(retryButton.getXSize() * 2);
+    	retryButton.setHeight(retryButton.getYSize() * 2);
+
+        retryButton.getTransform().XPos = ((App.SCREEN_WIDTH - retryButton.getWidth()) / 2);
+    	retryButton.getTransform().YPos = ((App.SCREEN_HEIGHT - retryButton.getHeight())) - RenderManager.GROUND_HEIGHT - 75;
+
+        retryButton.setLayer(999);
+
+        retryButton.setAction(new Action() {
+            @Override
+            public void onClick(){
+                SceneManager.RestartScene();
+            }
+            
+            @Override
+            public void onHover() {
+                // Do Nothing
+            }
+        });
+
+
+        this.GAME_OVER_SPRITES.add(retryButton);
     }
     
     public void CheckCollision(){
+        if(bird.getIsDead()){ return; }
+
+        // Get All Children Nodes from the RENDER_PANE
         ObservableList<Node> nodes = RenderManager.RENDER_PANE.getChildren();
+        
+        // Find a Player object in the nodes
         Node playerNode = nodes.stream().filter(node -> ((SpriteData)(node.getUserData())).tag == Player.TAG).findFirst().orElse(null);
         if(playerNode == null){ return; }
         
+        // Get all pipes in current scene
         List<Node> pipeNodes = nodes.stream().filter(node -> ((SpriteData)(node.getUserData())).tag == Pipe.TAG).collect(Collectors.toList());
         
         for(Node pipeNode : pipeNodes){
             // Thank you to invariant for the intersection solution!
             // https://stackoverflow.com/questions/20840587/how-to-use-intersect-method-of-node-class-in-javafx
-            if(pipeNode.intersects(pipeNode.sceneToLocal(playerNode.localToScene(playerNode.getBoundsInLocal())))){
-                bird.setIsDead(true);
-            }
+            if(pipeNode.intersects(pipeNode.sceneToLocal(playerNode.localToScene(playerNode.getBoundsInLocal())))){ bird.setIsDead(true); }
         }
         
     }
     
     @Override
     public SceneType Run(){
+        if(bird.getIsDead()){ this.GAME_OVER_SPRITES.forEach(sprite -> sprite.draw()); }
+
         this.SPRITES.forEach(sprite -> sprite.draw());
         this.PIPE_PAIRS.forEach(pipes -> { 
             pipes[0].draw(); 
@@ -68,10 +144,9 @@ public class Game extends Scene {
         this.NODES.forEach(node -> RenderManager.AddNode(node));
 
         this.SPRITES.forEach(sprite -> sprite.update());
-        this.PIPE_PAIRS.forEach(pipes -> { 
-            if(!bird.getIsDead()){
-                pipes[0].update(); pipes[1].update();
-            }
+        this.PIPE_PAIRS.forEach(pipes -> {
+            // If the bird is not dead, then move the pipes
+            if(!bird.getIsDead()){ pipes[0].update(); pipes[1].update(); }
 
             // Check if player in-between pipes - If so, increase score and set score to counted
             if((pipes[0].getTransform().XPos + (pipes[0].getWidth() / 2)) < (App.SCREEN_WIDTH / 2) && !pipes[0].isScoreCounted() && !pipes[1].isScoreCounted()){
@@ -81,9 +156,8 @@ public class Game extends Scene {
                 pipes[1].setScoreCounted(true);
             }
             
-            if(pipes[0].getTransform().XPos <= (pipes[0].getWidth() * -1)  || pipes[1].getTransform().XPos <= (pipes[1].getWidth() * -1)){
-                PIPES_TO_REMOVE.add(pipes);
-            }
+            // Add Pipes to be removed if pipes is off screen
+            if(pipes[0].getTransform().XPos <= (pipes[0].getWidth() * -1)  || pipes[1].getTransform().XPos <= (pipes[1].getWidth() * -1)){ PIPES_TO_REMOVE.add(pipes); }
         });
 
         CheckCollision();

@@ -20,6 +20,7 @@ public class SceneManager {
     public static void Setup(){
         SCENE_MAP.put(SceneType.MAIN_MENU, MainMenu.class);
         SCENE_MAP.put(SceneType.GAME, Game.class);
+        SCENE_MAP.put(SceneType.OPTIONS, null);
         SceneManager.IS_READY = true;
     }
 
@@ -35,7 +36,7 @@ public class SceneManager {
                 ACTIVE_SCENE = (Scene)(SCENE_MAP.get(CURRENT_SCENE).getConstructor().newInstance());
             } catch (Exception e) {
                 if(App.IS_DEBUG){ e.printStackTrace(); }
-                System.out.println("Failed loading scene " + CURRENT_SCENE.getClass().getName() + " ! Will default to MAIN_MENU !" );
+                System.out.println("Failed loading scene " + CURRENT_SCENE.getClass().getCanonicalName() + " ! Will default to MAIN_MENU !" );
                 ACTIVE_SCENE = new MainMenu();
             }
         }
@@ -45,5 +46,15 @@ public class SceneManager {
 
     public static Scene getCurrentScene() {
         return ACTIVE_SCENE;
+    }
+
+    public static void RestartScene(){
+        try {
+            ACTIVE_SCENE = (Scene)(SCENE_MAP.get(CURRENT_SCENE).getConstructor().newInstance());
+        } catch (Exception e) {
+            if(App.IS_DEBUG){ e.printStackTrace(); }
+            System.out.println("Failed loading scene " + CURRENT_SCENE.getClass().getCanonicalName() + " ! Will default to MAIN_MENU !" );
+            ACTIVE_SCENE = new MainMenu();
+        }
     }
 }

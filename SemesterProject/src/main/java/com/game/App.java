@@ -1,3 +1,11 @@
+// TODO: Music Manager
+// TODO: SFX Manager
+// TODO: Options Scene
+// TODO: Leaderboard Scene
+// TODO: Leaderboard Storage
+// TODO: Small Optimizations
+// DUE DATE: Wednesday, December 15, 2021, 11:55 PM
+
 package com.game;
 
 import com.game.Managers.RenderManager;

@@ -29,7 +29,7 @@ public class Player extends Sprite {
 
     public Player(Image spritesheet){
         super(spritesheet);
-        this.setLayer(0);
+        this.setLayer(1);
         this.setXRect(3);
         this.setYRect(491);
         this.setXSize(17);
@@ -52,7 +52,7 @@ public class Player extends Sprite {
     public void jump(){
         if(!IS_DEAD) {
         	vSpeed = jSpeed;
-            this.getTransform().XRot = 0;
+            this.getTransform().XRot = -50;
         }
     }
 
@@ -98,8 +98,7 @@ public class Player extends Sprite {
         vSpeed += fallingSpeed * FPS.getDeltaTime();
         
         if(this.getTransform().XRot < 90){
-            this.getTransform().XRot++;
-            // System.out.println(this.getTransform().XRot);
+            this.getTransform().XRot += 0.5;
         }
         
         animation();

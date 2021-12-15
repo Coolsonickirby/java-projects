@@ -45,7 +45,7 @@ public class Pipe extends Sprite{
         // Set X and Y Pos
         Pipe bottomPipe = new Pipe(App.SPRITESHEET);
         bottomPipe.getTransform().XPos = App.SCREEN_WIDTH + 25;
-        bottomPipe.getTransform().YPos = App.SCREEN_HEIGHT - (space + 100);
+        bottomPipe.getTransform().YPos = App.SCREEN_HEIGHT - (space + 90);
 
         return new Pipe[]{topPipe, bottomPipe};
     }

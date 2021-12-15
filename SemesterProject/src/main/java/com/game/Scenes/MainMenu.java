@@ -37,7 +37,7 @@ public class MainMenu extends Scene {
     	
     	playBtn.setWidth(playBtn.getXSize() * 3);
     	playBtn.setHeight(playBtn.getYSize() * 2.5);
-    	playBtn.getTransform().XPos = ((App.SCREEN_WIDTH - playBtn.getWidth()) / 2);
+    	playBtn.getTransform().XPos = ((App.SCREEN_WIDTH - playBtn.getWidth()) / 2) - playBtn.getWidth();
     	playBtn.getTransform().YPos = ((App.SCREEN_HEIGHT - playBtn.getHeight())) - RenderManager.GROUND_HEIGHT - 20;
     	
         playBtn.setAction(new Action() {
@@ -51,7 +51,35 @@ public class MainMenu extends Scene {
                 System.out.println("Button Hover!");                
             }
         });
+
         this.SPRITES.add(playBtn);
+
+        // Settings Button
+    	Button settingsBtn = new Button(App.SPRITESHEET);
+    	settingsBtn.setXRect(415);
+    	settingsBtn.setYRect(152);
+    	
+    	settingsBtn.setXSize(52);
+    	settingsBtn.setYSize(29);
+    	
+    	settingsBtn.setWidth(settingsBtn.getXSize() * 3);
+    	settingsBtn.setHeight(settingsBtn.getYSize() * 2.5);
+    	settingsBtn.getTransform().XPos = ((App.SCREEN_WIDTH - settingsBtn.getWidth()) / 2) + settingsBtn.getWidth();
+    	settingsBtn.getTransform().YPos = ((App.SCREEN_HEIGHT - settingsBtn.getHeight())) - RenderManager.GROUND_HEIGHT - 20;
+    	
+        settingsBtn.setAction(new Action() {
+            @Override
+            public void onClick(){
+                SCENE_TO_RET = SceneType.OPTIONS;
+            }
+            
+            @Override
+            public void onHover() {
+                System.out.println("Button Hover!");                
+            }
+        });
+
+        this.SPRITES.add(settingsBtn);
 
         // Demo Birb
         Player demoBird = new Player(App.SPRITESHEET);

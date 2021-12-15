@@ -26,6 +26,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 
 public class Game extends Scene {
+    private boolean SAVED_SCORE = false;
     private Player bird = null;
     private int timer = 0;
     private int score = 0;
@@ -190,6 +191,9 @@ public class Game extends Scene {
     public void mousePressed(MouseEvent event){
         if(!bird.getIsDead()){
             this.bird.jump(event.isSecondaryButtonDown());
+        }else if(!SAVED_SCORE){
+            if(score > 0){ Leaderboard.AddScore(score); Leaderboard.SaveLeaderboardToFile(Leaderboard.LEADERBOARD_PATH); }
+            SAVED_SCORE = true;
         }
     }
 }

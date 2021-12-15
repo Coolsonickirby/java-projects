@@ -1,4 +1,4 @@
 197579<split>6147007<split>Surge of Crimson Shouts! (Puyo Puyo Tetris 2)<split>Music/pklug.ogg
 1084235<split>7657411<split>I will seize, all! (Puyo Puyo Tetris 2)<split>Music/rafisol.ogg
-3391488<split>7081472<split>[Dark PHOENiX] 暗闇の風穴<split>Music/darkphoenix.mp3
+3391488<split>7081472<split>[Dark PHOENiX] 暗闇の風穴<split>Music/darkphoenix.ogg
 745472<split>7154470<split>Snake Eater (Metal Gear Solid 3)<split>Music/snek.ogg

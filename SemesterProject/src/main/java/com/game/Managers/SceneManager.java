@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import com.game.App;
 import com.game.Scenes.Game;
+import com.game.Scenes.Leaderboard;
 import com.game.Scenes.MainMenu;
 import com.game.Scenes.Scene;
 import com.game.Scenes.SceneType;
@@ -21,6 +22,7 @@ public class SceneManager {
         SCENE_MAP.put(SceneType.MAIN_MENU, MainMenu.class);
         SCENE_MAP.put(SceneType.GAME, Game.class);
         SCENE_MAP.put(SceneType.OPTIONS, null);
+        SCENE_MAP.put(SceneType.LEADERBOARD, Leaderboard.class);
         SceneManager.IS_READY = true;
     }
 

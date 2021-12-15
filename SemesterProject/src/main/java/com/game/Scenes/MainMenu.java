@@ -35,9 +35,9 @@ public class MainMenu extends Scene {
     	playBtn.setXSize(52);
     	playBtn.setYSize(29);
     	
-    	playBtn.setWidth(playBtn.getXSize() * 3);
-    	playBtn.setHeight(playBtn.getYSize() * 2.5);
-    	playBtn.getTransform().XPos = ((App.SCREEN_WIDTH - playBtn.getWidth()) / 2) - playBtn.getWidth();
+    	playBtn.setWidth(playBtn.getXSize() * 1.5);
+    	playBtn.setHeight(playBtn.getYSize() * 1.5);
+    	playBtn.getTransform().XPos = ((App.SCREEN_WIDTH - playBtn.getWidth()) / 2) - (playBtn.getWidth() + 20);
     	playBtn.getTransform().YPos = ((App.SCREEN_HEIGHT - playBtn.getHeight())) - RenderManager.GROUND_HEIGHT - 20;
     	
         playBtn.setAction(new Action() {
@@ -62,9 +62,9 @@ public class MainMenu extends Scene {
     	settingsBtn.setXSize(52);
     	settingsBtn.setYSize(29);
     	
-    	settingsBtn.setWidth(settingsBtn.getXSize() * 3);
-    	settingsBtn.setHeight(settingsBtn.getYSize() * 2.5);
-    	settingsBtn.getTransform().XPos = ((App.SCREEN_WIDTH - settingsBtn.getWidth()) / 2) + settingsBtn.getWidth();
+    	settingsBtn.setWidth(settingsBtn.getXSize() * 1.5);
+    	settingsBtn.setHeight(settingsBtn.getYSize() * 1.5);
+    	settingsBtn.getTransform().XPos = ((App.SCREEN_WIDTH - settingsBtn.getWidth()) / 2) + (settingsBtn.getWidth() + 20);
     	settingsBtn.getTransform().YPos = ((App.SCREEN_HEIGHT - settingsBtn.getHeight())) - RenderManager.GROUND_HEIGHT - 20;
     	
         settingsBtn.setAction(new Action() {
@@ -80,6 +80,33 @@ public class MainMenu extends Scene {
         });
 
         this.SPRITES.add(settingsBtn);
+
+        // Settings Button
+    	Button leaderBoardButton = new Button(App.SPRITESHEET);
+    	leaderBoardButton.setXRect(414);
+    	leaderBoardButton.setYRect(118);
+    	
+    	leaderBoardButton.setXSize(52);
+    	leaderBoardButton.setYSize(29);
+    	
+    	leaderBoardButton.setWidth(leaderBoardButton.getXSize() * 1.5);
+    	leaderBoardButton.setHeight(leaderBoardButton.getYSize() * 1.5);
+    	leaderBoardButton.getTransform().XPos = ((App.SCREEN_WIDTH - leaderBoardButton.getWidth()) / 2);
+    	leaderBoardButton.getTransform().YPos = ((App.SCREEN_HEIGHT - leaderBoardButton.getHeight())) - RenderManager.GROUND_HEIGHT - 20;
+    	
+        leaderBoardButton.setAction(new Action() {
+            @Override
+            public void onClick(){
+                SCENE_TO_RET = SceneType.LEADERBOARD;
+            }
+            
+            @Override
+            public void onHover() {
+                System.out.println("Button Hover!");                
+            }
+        });
+
+        this.SPRITES.add(leaderBoardButton);
 
         // Demo Birb
         Player demoBird = new Player(App.SPRITESHEET);

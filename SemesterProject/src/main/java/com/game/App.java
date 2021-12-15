@@ -2,8 +2,8 @@
 // DONE: Add Music
 // DONE: SFX Manager
 // TODO: Options Scene
-// TODO: Leaderboard Scene
-// TODO: Leaderboard Storage
+// DONE: Leaderboard Scene
+// DONE: Leaderboard Storage
 // TODO: Small Optimizations
 // DUE DATE: Wednesday, December 15, 2021, 11:55 PM
 
@@ -15,6 +15,7 @@ import com.game.Audio.MusicPlayer;
 import com.game.Audio.SFXPlayer;
 import com.game.Managers.RenderManager;
 import com.game.Managers.SceneManager;
+import com.game.Scenes.Leaderboard;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
@@ -47,6 +48,7 @@ public class App extends Application {
         RenderManager.Setup();
         SceneManager.Setup();
         SFXPlayer.InitalSetup();
+        Leaderboard.StaticSetup();
 
         if((new File(PLAYLIST).exists())){
             MusicPlayer.InitalSetup();

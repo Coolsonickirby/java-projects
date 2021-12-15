@@ -7,6 +7,8 @@ import java.util.stream.Collectors;
 
 import com.game.App;
 import com.game.FPS;
+import com.game.Audio.SFXEnum;
+import com.game.Audio.SFXPlayer;
 import com.game.Entities.Action;
 import com.game.Entities.Button;
 import com.game.Entities.Pipe;
@@ -127,7 +129,10 @@ public class Game extends Scene {
         for(Node pipeNode : pipeNodes){
             // Thank you to invariant for the intersection solution!
             // https://stackoverflow.com/questions/20840587/how-to-use-intersect-method-of-node-class-in-javafx
-            if(pipeNode.intersects(pipeNode.sceneToLocal(playerNode.localToScene(playerNode.getBoundsInLocal())))){ bird.setIsDead(true); }
+            if(pipeNode.intersects(pipeNode.sceneToLocal(playerNode.localToScene(playerNode.getBoundsInLocal())))){
+                SFXPlayer.PlaySFXEnum(SFXEnum.BIRD_HIT);
+                bird.setIsDead(true);
+            }
         }
         
     }
@@ -154,6 +159,7 @@ public class Game extends Scene {
                 scoreText.setText(String.valueOf(score));
                 pipes[0].setScoreCounted(true);
                 pipes[1].setScoreCounted(true);
+                SFXPlayer.PlaySFXEnum(SFXEnum.PASS_PIPE);
             }
             
             // Add Pipes to be removed if pipes is off screen
@@ -179,10 +185,8 @@ public class Game extends Scene {
 
     @Override
     public void mousePressed(){
-        if(bird.getIsDead()){
-            SCENE_TO_RET = SceneType.MAIN_MENU;
+        if(!bird.getIsDead()){
+            this.bird.jump();
         }
-
-        this.bird.jump();
     }
 }

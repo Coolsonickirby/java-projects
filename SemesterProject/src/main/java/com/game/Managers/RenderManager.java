@@ -23,7 +23,7 @@ public class RenderManager {
 
     public static void Setup(){
         RENDER_PANE.setOnMousePressed(event -> {
-            InputManager.MousePressed();
+            SceneManager.getCurrentScene().mousePressed();
         });
 
         BACKGROUND.setXRect(0);

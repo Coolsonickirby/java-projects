@@ -2,6 +2,8 @@
 package com.game.Entities;
 import com.game.App;
 import com.game.FPS;
+import com.game.Audio.SFXEnum;
+import com.game.Audio.SFXPlayer;
 import com.game.Managers.RenderManager;
 
 import javafx.scene.image.Image;
@@ -51,6 +53,7 @@ public class Player extends Sprite {
 
     public void jump(){
         if(!IS_DEAD) {
+            SFXPlayer.PlaySFXEnum(SFXEnum.BIRD_FLAP);
         	vSpeed = jSpeed;
             this.getTransform().XRot = -50;
         }
@@ -89,7 +92,8 @@ public class Player extends Sprite {
             return;
         }
 
-        if(this.getTransform().YPos >= this.GROUND_HEIGHT){
+        if((this.getTransform().YPos >= this.GROUND_HEIGHT || this.getTransform().YPos <= 0) && !IS_DEAD){
+            SFXPlayer.PlaySFXEnum(SFXEnum.BIRD_HIT);
             IS_DEAD = true;
         }
 

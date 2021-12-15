@@ -1,5 +1,8 @@
 package com.game.Entities;
 
+import com.game.Audio.SFXEnum;
+import com.game.Audio.SFXPlayer;
+
 import javafx.scene.image.Image;
 
 public class Button extends Sprite {
@@ -30,6 +33,7 @@ public class Button extends Sprite {
 
     @Override
     public void onClick(){
+        SFXPlayer.PlaySFXEnum(SFXEnum.BUTTON_HIT);
         this.actions.onClick();
     }
 

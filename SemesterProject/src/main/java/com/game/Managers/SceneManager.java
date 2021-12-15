@@ -36,7 +36,7 @@ public class SceneManager {
                 ACTIVE_SCENE = (Scene)(SCENE_MAP.get(CURRENT_SCENE).getConstructor().newInstance());
             } catch (Exception e) {
                 if(App.IS_DEBUG){ e.printStackTrace(); }
-                System.out.println("Failed loading scene " + CURRENT_SCENE.getClass().getCanonicalName() + " ! Will default to MAIN_MENU !" );
+                System.out.println("Failed loading scene " + CURRENT_SCENE.name() + " ! Will default to MAIN_MENU !" );
                 ACTIVE_SCENE = new MainMenu();
             }
         }
@@ -53,7 +53,7 @@ public class SceneManager {
             ACTIVE_SCENE = (Scene)(SCENE_MAP.get(CURRENT_SCENE).getConstructor().newInstance());
         } catch (Exception e) {
             if(App.IS_DEBUG){ e.printStackTrace(); }
-            System.out.println("Failed loading scene " + CURRENT_SCENE.getClass().getCanonicalName() + " ! Will default to MAIN_MENU !" );
+            System.out.println("Failed loading scene " + CURRENT_SCENE.name() + " ! Will default to MAIN_MENU !" );
             ACTIVE_SCENE = new MainMenu();
         }
     }

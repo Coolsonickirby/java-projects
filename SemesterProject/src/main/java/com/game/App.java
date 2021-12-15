@@ -1,5 +1,5 @@
-// TODO: Music Manager
-// TODO: SFX Manager
+// DONE: Music Manager
+// DONE: SFX Manager
 // TODO: Options Scene
 // TODO: Leaderboard Scene
 // TODO: Leaderboard Storage
@@ -8,6 +8,7 @@
 
 package com.game;
 
+import com.game.Audio.SFXPlayer;
 import com.game.Managers.RenderManager;
 import com.game.Managers.SceneManager;
 
@@ -40,6 +41,7 @@ public class App extends Application {
         FPS.calcBeginTime();
         RenderManager.Setup();
         SceneManager.Setup();
+        SFXPlayer.InitalSetup();
 
         AnimationTimer GAME_LOOP = new AnimationTimer() {
             @Override

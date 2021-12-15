@@ -3,6 +3,7 @@ import com.game.Entities.Sprite;
 import com.game.Managers.RenderManager;
 
 import javafx.scene.Node;
+import javafx.scene.input.MouseEvent;
 
 import java.util.ArrayList;
 
@@ -17,7 +18,7 @@ public class Scene {
         return SceneType.MAIN_MENU;
     }
 
-    public void mousePressed(){
+    public void mousePressed(MouseEvent event){
         System.out.println("Mouse Pressed!");
     }
 }

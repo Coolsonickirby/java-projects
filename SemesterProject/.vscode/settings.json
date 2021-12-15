@@ -5,12 +5,5 @@
     "java.project.outputPath": "bin",
     "java.project.referencedLibraries": [
         "lib/**/*.jar",
-        "a:\\College\\Java\\BigDice\\lib\\jl1.0.1.jar",
-        "a:\\College\\Java\\BigDice\\lib\\jogg-0.0.7.jar",
-        "a:\\College\\Java\\BigDice\\lib\\jorbis.jar",
-        "a:\\College\\Java\\BigDice\\lib\\mp3spi1.9.5.jar",
-        "a:\\College\\Java\\BigDice\\lib\\tritonus_jorbis.jar",
-        "a:\\College\\Java\\BigDice\\lib\\tritonus_share.jar",
-        "a:\\College\\Java\\BigDice\\lib\\vorbisspi1.0.3.jar"
     ]
 }

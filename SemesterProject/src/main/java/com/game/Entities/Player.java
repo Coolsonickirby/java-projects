@@ -51,10 +51,10 @@ public class Player extends Sprite {
     public boolean getIsDemo() { return IS_DEMO; }
     public void setIsDemo(boolean IS_DEMO) { this.IS_DEMO = IS_DEMO; }
 
-    public void jump(){
+    public void jump(boolean invertJump){
         if(!IS_DEAD) {
             SFXPlayer.PlaySFXEnum(SFXEnum.BIRD_FLAP);
-        	vSpeed = jSpeed;
+        	vSpeed = invertJump ? (jSpeed * -1) : jSpeed;
             this.getTransform().XRot = -50;
         }
     }

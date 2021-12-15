@@ -2,6 +2,7 @@ package com.game.Managers;
 import java.util.Comparator;
 
 import com.game.App;
+import com.game.Audio.MusicPlayer;
 import com.game.Entities.Sprite;
 import com.game.Entities.SpriteData;
 
@@ -11,7 +12,6 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
-import javafx.scene.Group;
 import javafx.scene.Node;
 
 public class RenderManager {
@@ -20,10 +20,11 @@ public class RenderManager {
     public static double GROUND_HEIGHT = 75.0;
     private static Sprite BACKGROUND = new Sprite(App.SPRITESHEET);
     private static Sprite GROUND = new Sprite(App.SPRITESHEET);
+    private static Text MUSIC_TEXT = new Text();
 
     public static void Setup(){
         RENDER_PANE.setOnMousePressed(event -> {
-            SceneManager.getCurrentScene().mousePressed();
+            SceneManager.getCurrentScene().mousePressed(event);
         });
 
         BACKGROUND.setXRect(0);
@@ -43,22 +44,20 @@ public class RenderManager {
         GROUND.setLayer(0);
         GROUND.getTransform().YPos = App.SCREEN_HEIGHT - GROUND_HEIGHT;
 
+        MUSIC_TEXT.setTranslateX(10);
+        MUSIC_TEXT.setTranslateY(App.SCREEN_HEIGHT - 20);
+        MUSIC_TEXT.setOnMousePressed(event -> {
+            MusicPlayer.PlayRandom();
+        });
+        MUSIC_TEXT.setUserData(new SpriteData("HUD", 1000));
     }
 
     public static void Clear(){
         RENDER_PANE.getChildren().clear();
     }
     
-    public static void DrawHUD(){
-        Group HUD = new Group();
-        Text t = new Text();
-        t.setText("Now Playing: Surge of the Crimson Shouts (Possessed Klug's Theme) - Puyo Puyo Tetris 2");
-        HUD.setTranslateX(5);
-        HUD.setTranslateY(10);
-        
-        HUD.getChildren().add(t);
-        
-        RENDER_PANE.getChildren().add(HUD);
+    public static void DrawHUD(){       
+        RENDER_PANE.getChildren().add(MUSIC_TEXT);
     }
 
     public static void DrawBackground(){
@@ -106,5 +105,9 @@ public class RenderManager {
             }
         });
         RENDER_PANE.getChildren().setAll(workingCollection);
+    }
+
+    public static void SetMusicText(String title) {
+        MUSIC_TEXT.setText(String.format("Now Playing:\n%s", title));
     }
 }

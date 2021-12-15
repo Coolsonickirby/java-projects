@@ -3,13 +3,20 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="src" path="src/main/java"/>
 	<classpathentry excluding="java/" kind="src" path="src/main"/>
-	<classpathentry kind="lib" path="lib/javafx-swt.jar"/> 
 	<classpathentry kind="lib" path="lib/javafx.base.jar"/> 
 	<classpathentry kind="lib" path="lib/javafx.controls.jar"/> 
 	<classpathentry kind="lib" path="lib/javafx.fxml.jar"/> 
 	<classpathentry kind="lib" path="lib/javafx.graphics.jar"/> 
 	<classpathentry kind="lib" path="lib/javafx.media.jar"/> 
 	<classpathentry kind="lib" path="lib/javafx.swing.jar"/> 
+	<classpathentry kind="lib" path="lib/javafx-swt.jar"/> 
 	<classpathentry kind="lib" path="lib/javafx.web.jar"/> 
+	<classpathentry kind="lib" path="lib/jl1.0.1.jar"/> 
+	<classpathentry kind="lib" path="lib/jogg-0.0.7.jar"/> 
+	<classpathentry kind="lib" path="lib/jorbis.jar"/> 
+	<classpathentry kind="lib" path="lib/mp3spi1.9.5.jar"/> 
+	<classpathentry kind="lib" path="lib/tritonus_jorbis.jar"/> 
+	<classpathentry kind="lib" path="lib/tritonus_share.jar"/> 
+	<classpathentry kind="lib" path="lib/vorbisspi1.0.3.jar"/> 
 	<classpathentry kind="output" path="bin"/>
 </classpath>

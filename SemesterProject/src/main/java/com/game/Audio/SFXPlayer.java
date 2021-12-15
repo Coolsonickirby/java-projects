@@ -90,7 +90,7 @@ public class SFXPlayer {
     public static void PlaySFX(SFXEnum type, int loop){
         try {
             if(!SFXPlayer.isReady){ return; }
-            for (Clip clip : SFX_LIST.values()) { clip.stop(); }
+            // for (Clip clip : SFX_LIST.values()) { clip.stop(); }
             // Get Clip object from the HashMap
             Clip clipToPlay = SFX_LIST.get(type);
             

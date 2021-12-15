@@ -20,8 +20,10 @@ import com.game.Managers.SceneManager;
 
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 
 public class Game extends Scene {
     private Player bird = null;
@@ -49,6 +51,7 @@ public class Game extends Scene {
         scoreText.setStrokeWidth(2);
         scoreText.setX(App.SCREEN_WIDTH / 2);
         scoreText.setY(((App.SCREEN_HEIGHT / 2) - 200));
+        scoreText.setTextAlignment(TextAlignment.CENTER);
         this.NODES.add(scoreText);
         
 
@@ -184,9 +187,9 @@ public class Game extends Scene {
     }
 
     @Override
-    public void mousePressed(){
+    public void mousePressed(MouseEvent event){
         if(!bird.getIsDead()){
-            this.bird.jump();
+            this.bird.jump(event.isSecondaryButtonDown());
         }
     }
 }

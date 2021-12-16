@@ -1,3 +1,10 @@
+/*|----------------------------------------------------------------|*
+ *| CIS-171 Java Programming                                       |*
+ *| Final Project - Flappy Bird FX                                 |*
+ *| Written By: Ali Hussain (Coolsonickirby/Random)                |*
+ *|----------------------------------------------------------------|*
+ */
+
 package com.game.Managers;
 import java.util.Comparator;
 
@@ -108,6 +115,7 @@ public class RenderManager {
     }
 
     public static void SetMusicText(String title) {
+        if(MUSIC_TEXT == null){ return; }
         MUSIC_TEXT.setText(String.format("Now Playing:\n%s", title));
     }
 }

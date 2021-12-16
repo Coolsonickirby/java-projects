@@ -1,6 +1,6 @@
 /*|----------------------------------------------------------------|*
  *| CIS-171 Java Programming                                       |*
- *| Assignment #9 - Big Dice Game                                  |*
+ *| Final Project - Flappy Bird FX                                 |*
  *| Written By: Ali Hussain (Coolsonickirby/Random)                |*
  *|----------------------------------------------------------------|*
  */
@@ -28,6 +28,17 @@ public class Utils {
     public static void WriteUInt32(OutputStream outputStream, int val, ByteOrder byteOrder) {
         try {
             outputStream.write(ByteBuffer.allocate(4).putInt(val).order(byteOrder).array());
+        } catch (Exception e) {
+            if (App.IS_DEBUG) {
+                e.printStackTrace();
+            }
+            System.out.println("[Utils::WriteUInt32] Failed writing UInt32 to output stream!");
+        }
+    }
+
+    public static void WriteFloat(OutputStream outputStream, float val, ByteOrder byteOrder) {
+        try {
+            outputStream.write(ByteBuffer.allocate(4).putFloat(val).order(byteOrder).array());
         } catch (Exception e) {
             if (App.IS_DEBUG) {
                 e.printStackTrace();
@@ -68,6 +79,21 @@ public class Utils {
             // inputStream.read(res);
             // return ByteBuffer.wrap(res).order(byteOrder).getInt();
             return ByteBuffer.wrap(inputStream.readNBytes(4)).order(byteOrder).getInt(); // -- JDK 11 or higher
+        } catch (Exception e) {
+            if (App.IS_DEBUG) {
+                e.printStackTrace();
+            }
+            System.out.println("[Utils::ReadUInt32] Failed reading UInt32 from input stream!");
+        }
+        return -1;
+    }
+
+    public static float ReadFloat(InputStream inputStream, ByteOrder byteOrder) {
+        try {
+            // byte[] res = new byte[4];
+            // inputStream.read(res);
+            // return ByteBuffer.wrap(res).order(byteOrder).getFloat();
+            return ByteBuffer.wrap(inputStream.readNBytes(4)).order(byteOrder).getFloat(); // -- JDK 11 or higher
         } catch (Exception e) {
             if (App.IS_DEBUG) {
                 e.printStackTrace();

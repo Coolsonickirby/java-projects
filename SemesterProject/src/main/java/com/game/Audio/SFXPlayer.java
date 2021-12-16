@@ -1,6 +1,6 @@
 /*|----------------------------------------------------------------|*
  *| CIS-171 Java Programming                                       |*
- *| Assignment #9 - Big Dice Game                                  |*
+ *| Final Project - Flappy Bird FX                                 |*
  *| Written By: Ali Hussain (Coolsonickirby/Random)                |*
  *|----------------------------------------------------------------|*
  */
@@ -108,4 +108,8 @@ public class SFXPlayer {
     }
 
     public static void PlaySFXEnum(SFXEnum type){ SFXPlayer.PlaySFX(type, 0); }
+
+    public static Float GetVolume() {
+        return volume;
+    }
 }

@@ -1,3 +1,10 @@
+/*|----------------------------------------------------------------|*
+ *| CIS-171 Java Programming                                       |*
+ *| Final Project - Flappy Bird FX                                 |*
+ *| Written By: Ali Hussain (Coolsonickirby/Random)                |*
+ *|----------------------------------------------------------------|*
+ */
+
 package com.game.Entities;
 
 import com.game.App;
@@ -7,12 +14,18 @@ import javafx.scene.image.Image;
 
 public class Pipe extends Sprite{
     public static final String TAG = "pipe";
+    private int currentPipeColor = 0;
+    private int[][] PIPE_COLORS = new int[][]{
+        new int[]{84, 323},
+        new int[]{0, 323}
+    };
     private boolean scoreCounted = false;
     public Pipe(Image spritesheet){
         super(spritesheet);
+        this.currentPipeColor = App.getRandomNumber(0, PIPE_COLORS.length);
         this.setLayer(0);
-        this.setXRect(84);
-        this.setYRect(323);
+        this.setXRect(PIPE_COLORS[currentPipeColor][0]);
+        this.setYRect(PIPE_COLORS[currentPipeColor][1]);
         this.setXSize(26);
         this.setYSize(160);
         this.setWidth(this.getXSize() * 2);

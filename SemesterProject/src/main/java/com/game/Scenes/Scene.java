@@ -1,3 +1,10 @@
+/*|----------------------------------------------------------------|*
+ *| CIS-171 Java Programming                                       |*
+ *| Final Project - Flappy Bird FX                                 |*
+ *| Written By: Ali Hussain (Coolsonickirby/Random)                |*
+ *|----------------------------------------------------------------|*
+ */
+
 package com.game.Scenes;
 import com.game.Entities.Sprite;
 import com.game.Managers.RenderManager;
@@ -19,6 +26,6 @@ public class Scene {
     }
 
     public void mousePressed(MouseEvent event){
-        System.out.println("Mouse Pressed!");
+        // Do nothing
     }
 }

@@ -1,12 +1,21 @@
+/*|----------------------------------------------------------------|*
+ *| CIS-171 Java Programming                                       |*
+ *| Final Project - Flappy Bird FX                                 |*
+ *| Written By: Ali Hussain (Coolsonickirby/Random)                |*
+ *|----------------------------------------------------------------|*
+ */
+
 package com.game.Managers;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.game.App;
+import com.game.Scenes.Credits;
 import com.game.Scenes.Game;
 import com.game.Scenes.Leaderboard;
 import com.game.Scenes.MainMenu;
+import com.game.Scenes.Options;
 import com.game.Scenes.Scene;
 import com.game.Scenes.SceneType;
 
@@ -21,8 +30,9 @@ public class SceneManager {
     public static void Setup(){
         SCENE_MAP.put(SceneType.MAIN_MENU, MainMenu.class);
         SCENE_MAP.put(SceneType.GAME, Game.class);
-        SCENE_MAP.put(SceneType.OPTIONS, null);
+        SCENE_MAP.put(SceneType.OPTIONS, Options.class);
         SCENE_MAP.put(SceneType.LEADERBOARD, Leaderboard.class);
+        SCENE_MAP.put(SceneType.CREDITS, Credits.class);
         SceneManager.IS_READY = true;
     }
 

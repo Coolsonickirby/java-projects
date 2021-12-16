@@ -1,6 +1,6 @@
 /*|----------------------------------------------------------------|*
  *| CIS-171 Java Programming                                       |*
- *| Assignment #9 - Big Dice Game                                  |*
+ *| Final Project - Flappy Bird FX                                 |*
  *| Written By: Ali Hussain (Coolsonickirby/Random)                |*
  *|----------------------------------------------------------------|*
  */
@@ -38,6 +38,8 @@ public class MusicPlayer {
 
     // Implement Fade Out and Fade In
     public static void SetVolume(float volume){
+        if(!isReady) {return;}
+
         if(volume > 1f){ MusicPlayer.volume = 1f; }
         else if(volume < 0f){ MusicPlayer.volume = 0f; }
         else{ MusicPlayer.volume = volume; }
@@ -159,17 +161,18 @@ public class MusicPlayer {
         Thread changeMusic = new Thread(new Runnable() {
             @Override
             public void run(){
-                if(playedMusicIDX.size() == musicEntries.size()){
-                    playedMusicIDX.clear();
-                }
-        
+                if(playedMusicIDX.size() == musicEntries.size()){ playedMusicIDX.clear(); }
                 current_song_index = App.getRandomNumber(0, MusicPlayer.musicEntries.size());
-                if(playedMusicIDX.contains(current_song_index)){ current_song_index = App.getRandomNumber(0, MusicPlayer.musicEntries.size()); }
+                while(playedMusicIDX.contains(current_song_index)){ current_song_index = App.getRandomNumber(0, MusicPlayer.musicEntries.size()); }
                 playedMusicIDX.add(current_song_index);
                 MusicPlayer.PlayMusic();
             }
         });
 
         changeMusic.start();
+    }
+
+    public static Float GetVolume() {
+        return volume;
     }
 }

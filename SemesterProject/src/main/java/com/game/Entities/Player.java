@@ -1,5 +1,13 @@
+/*|----------------------------------------------------------------|*
+ *| CIS-171 Java Programming                                       |*
+ *| Final Project - Flappy Bird FX                                 |*
+ *| Written By: Ali Hussain (Coolsonickirby/Random)                |*
+ *|----------------------------------------------------------------|*
+ */
+
 // Physics copied from here --- https://gamedev.stackexchange.com/questions/70268/can-someone-explain-flappy-birds-physics-to-me
 package com.game.Entities;
+
 import com.game.App;
 import com.game.FPS;
 import com.game.Audio.SFXEnum;
@@ -17,20 +25,38 @@ public class Player extends Sprite {
     private boolean IS_DEMO = false;
     private double currentKeyFrame = 0;
     private int currentAnimationFrame = 0;
+    private int currentPlayerColor = 0;
     private double GROUND_HEIGHT = 0;
     private double INITAL_Y_POS = 0;
     private double DEMO_BOUNCE = 2;
     private boolean IGNORE = false;
-    private int[][] ANIMATION = new int[][] {
-        new int[] { 0, 3, 491 },
-        new int[] { 20, 31, 491 },
-        new int[] { 35, 59, 491 },
-        new int[] { 50, 31, 491 },
-        new int[] { 65, 3, 491 },
+    private int[][][] ANIMATION = new int[][][] {
+            new int[][] {
+                    new int[] { 0, 3, 491 },
+                    new int[] { 20, 31, 491 },
+                    new int[] { 35, 59, 491 },
+                    new int[] { 50, 31, 491 },
+                    new int[] { 65, 3, 491 },
+            },
+            new int[][]{
+                new int[] { 0, 115, 381 },
+                new int[] { 20, 115, 407 },
+                new int[] { 35, 115, 433 },
+                new int[] { 50, 115, 407 },
+                new int[] { 65, 115, 381 },
+            },
+            new int[][]{
+                new int[] { 0, 87, 491 },
+                new int[] { 20, 115, 329 },
+                new int[] { 35, 115, 355 },
+                new int[] { 50, 115, 329 },
+                new int[] { 65, 87, 491 },
+            }
     };
 
-    public Player(Image spritesheet){
+    public Player(Image spritesheet) {
         super(spritesheet);
+        this.currentPlayerColor = App.getRandomNumber(0, ANIMATION.length);
         this.setLayer(1);
         this.setXRect(3);
         this.setYRect(491);
@@ -38,53 +64,65 @@ public class Player extends Sprite {
         this.setYSize(12);
         this.setWidth(this.getXSize() * 2);
         this.setHeight(this.getYSize() * 2);
-        this.getTransform().XPos = ((App.SCREEN_WIDTH - this.getWidth()) / 2);
+        this.getTransform().XPos = ((App.SCREEN_WIDTH - this.getWidth()) / 2) - 50;
         INITAL_Y_POS = (App.SCREEN_HEIGHT - this.getHeight()) / 2;
         this.getTransform().YPos = INITAL_Y_POS;
         this.setTag(Player.TAG);
         this.GROUND_HEIGHT = ((App.SCREEN_HEIGHT - RenderManager.GROUND_HEIGHT) - this.getHeight());
     }
-    
-    public boolean getIsDead() { return IS_DEAD; }
-    public void setIsDead(boolean IS_DEAD) { this.IS_DEAD = IS_DEAD; }
 
-    public boolean getIsDemo() { return IS_DEMO; }
-    public void setIsDemo(boolean IS_DEMO) { this.IS_DEMO = IS_DEMO; }
+    public boolean getIsDead() {
+        return IS_DEAD;
+    }
 
-    public void jump(boolean invertJump){
-        if(!IS_DEAD) {
+    public void setIsDead(boolean IS_DEAD) {
+        this.IS_DEAD = IS_DEAD;
+    }
+
+    public boolean getIsDemo() {
+        return IS_DEMO;
+    }
+
+    public void setIsDemo(boolean IS_DEMO) {
+        this.IS_DEMO = IS_DEMO;
+    }
+
+    public void jump(boolean invertJump) {
+        if (!IS_DEAD) {
             SFXPlayer.PlaySFXEnum(SFXEnum.BIRD_FLAP);
-        	vSpeed = invertJump ? (jSpeed * -1) : jSpeed;
+            vSpeed = invertJump ? (jSpeed * -1) : jSpeed;
             this.getTransform().XRot = -50;
         }
     }
 
-    public void animation(){
-        if(IS_DEAD){ return; }
-        if(currentKeyFrame >= ANIMATION[currentAnimationFrame][0]){
-            this.setXRect(ANIMATION[currentAnimationFrame][1]);
-            this.setYRect(ANIMATION[currentAnimationFrame][2]);
+    public void animation() {
+        if (IS_DEAD) {
+            return;
+        }
+        if (currentKeyFrame >= ANIMATION[currentPlayerColor][currentAnimationFrame][0]) {
+            this.setXRect(ANIMATION[currentPlayerColor][currentAnimationFrame][1]);
+            this.setYRect(ANIMATION[currentPlayerColor][currentAnimationFrame][2]);
             currentAnimationFrame++;
-            if(currentAnimationFrame >= ANIMATION.length){
+            if (currentAnimationFrame >= ANIMATION.length) {
                 currentAnimationFrame = 0;
                 currentKeyFrame = 0;
             }
         }
-        
-        currentKeyFrame += 0.5;
+
+        currentKeyFrame += FPS.getDeltaTime() * 150;
     }
 
     @Override
-    public void update(){
-        if(IS_DEMO){
-            if(this.getTransform().YPos < (INITAL_Y_POS + DEMO_BOUNCE) && !IGNORE){
+    public void update() {
+        if (IS_DEMO) {
+            if (this.getTransform().YPos < (INITAL_Y_POS + DEMO_BOUNCE) && !IGNORE) {
                 this.getTransform().YPos += (FPS.getDeltaTime() * 10);
                 // this.getTransform().YPos += 1;
-            }else if(this.getTransform().YPos > (INITAL_Y_POS - DEMO_BOUNCE)){
+            } else if (this.getTransform().YPos > (INITAL_Y_POS - DEMO_BOUNCE)) {
                 this.getTransform().YPos -= (FPS.getDeltaTime() * 10);
                 // this.getTransform().YPos -= 1;
                 IGNORE = true;
-            }else {
+            } else {
                 IGNORE = false;
             }
 
@@ -92,19 +130,25 @@ public class Player extends Sprite {
             return;
         }
 
-        if((this.getTransform().YPos >= this.GROUND_HEIGHT || this.getTransform().YPos <= 0) && !IS_DEAD){
+        if ((this.getTransform().YPos >= this.GROUND_HEIGHT || this.getTransform().YPos <= 0) && !IS_DEAD) {
             SFXPlayer.PlaySFXEnum(SFXEnum.BIRD_HIT);
             IS_DEAD = true;
         }
 
         // Player physics go here
-        this.getTransform().YPos -=  (this.getTransform().YPos < this.GROUND_HEIGHT ? (vSpeed * FPS.getDeltaTime()) : 0);
+        this.getTransform().YPos -= (this.getTransform().YPos < this.GROUND_HEIGHT ? (vSpeed * FPS.getDeltaTime()) : 0);
         vSpeed += fallingSpeed * FPS.getDeltaTime();
-        
-        if(this.getTransform().XRot < 90){
+
+        if (this.getTransform().XRot < 90) {
             this.getTransform().XRot += 0.5;
         }
-        
+
         animation();
     }
+
+    public void setColor(int color){
+        if(color <= ANIMATION.length){ this.currentPlayerColor = color; }
+    }
+
+    public int getColor(){ return currentPlayerColor; }
 }

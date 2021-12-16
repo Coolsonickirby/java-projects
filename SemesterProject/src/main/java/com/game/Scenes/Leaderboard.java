@@ -1,3 +1,10 @@
+/*|----------------------------------------------------------------|*
+ *| CIS-171 Java Programming                                       |*
+ *| Final Project - Flappy Bird FX                                 |*
+ *| Written By: Ali Hussain (Coolsonickirby/Random)                |*
+ *|----------------------------------------------------------------|*
+ */
+
 /*
  * - File Structure:
  *  - char[4] magic
@@ -14,17 +21,16 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.ByteOrder;
-import java.util.ArrayList;
 import java.util.Collections;
 
 import com.game.App;
 import com.game.Utils;
 import com.game.Entities.Action;
 import com.game.Entities.Button;
+import com.game.Entities.Sprite;
 import com.game.Entities.SpriteData;
 import com.game.Managers.RenderManager;
 
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableCell;
@@ -40,6 +46,22 @@ public class Leaderboard extends Scene {
     private SceneType SCENE_TO_RET = SceneType.LEADERBOARD;
 
     public Leaderboard(){
+
+        // Initialize sprite stuff    	
+    	Sprite title = new Sprite(App.SPRITESHEET);
+    	title.setXRect(170);
+    	title.setYRect(266);
+    	
+    	title.setXSize(112);
+    	title.setYSize(20);
+    	
+    	title.setWidth(title.getXSize() * 3);
+    	title.setHeight(title.getYSize() * 3);
+    	title.getTransform().XPos = ((App.SCREEN_WIDTH - title.getWidth()) / 2);
+    	title.getTransform().YPos = ((App.SCREEN_HEIGHT - title.getHeight()) / 2) - 200;
+        
+        this.SPRITES.add(title);
+
         SCORES_TABLE = new TableView();
         SCORES_TABLE.setPrefWidth(App.SCREEN_WIDTH / 3.5);
         SCORES_TABLE.setPrefHeight(App.SCREEN_HEIGHT / 2);
@@ -131,7 +153,7 @@ public class Leaderboard extends Scene {
             SCORES.forEach(score -> Utils.WriteUInt32(outputStream, score, BYTE_ORDER));
         } catch (Exception e) {
             if(App.IS_DEBUG){ e.printStackTrace(); }
-            System.out.println("Failed saving leaderboard!");
+            System.out.println("[Leaderboard::SaveLeaderboardToFile] Failed saving leaderboard!");
         }
     }
 

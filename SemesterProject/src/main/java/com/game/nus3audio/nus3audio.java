@@ -1,6 +1,6 @@
 /*|----------------------------------------------------------------|*
  *| CIS-171 Java Programming                                       |*
- *| Assignment #9 - Big Dice Game                                  |*
+ *| Final Project - Flappy Bird FX                                 |*
  *| Written By: Ali Hussain (Coolsonickirby/Random)                |*
  *|----------------------------------------------------------------|*
  */

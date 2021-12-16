@@ -1,3 +1,9 @@
+/*|----------------------------------------------------------------|*
+ *| CIS-171 Java Programming                                       |*
+ *| Final Project - Flappy Bird FX                                 |*
+ *| Written By: Ali Hussain (Coolsonickirby/Random)                |*
+ *|----------------------------------------------------------------|*
+ */
 // This file is mostly based off the video made by CoderBoi - https://www.youtube.com/watch?v=3lSzfidowTE
 package com.game;
 

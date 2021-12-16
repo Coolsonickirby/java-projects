@@ -1,3 +1,10 @@
+/*|----------------------------------------------------------------|*
+ *| CIS-171 Java Programming                                       |*
+ *| Final Project - Flappy Bird FX                                 |*
+ *| Written By: Ali Hussain (Coolsonickirby/Random)                |*
+ *|----------------------------------------------------------------|*
+ */
+
 package com.game.Scenes;
 
 import com.game.App;
@@ -107,6 +114,35 @@ public class MainMenu extends Scene {
         });
 
         this.SPRITES.add(leaderBoardButton);
+
+        // Add Credits button
+    	Button creditsButton = new Button(App.SPRITESHEET);
+        creditsButton.setXRect(460);
+        creditsButton.setYRect(101);
+
+    	creditsButton.setXSize(40);
+    	creditsButton.setYSize(14);
+    	
+    	creditsButton.setWidth(creditsButton.getXSize() * 1.5);
+    	creditsButton.setHeight(creditsButton.getYSize() * 1.5);
+    	creditsButton.getTransform().XPos = ((App.SCREEN_WIDTH - (creditsButton.getWidth()) - 20));
+    	creditsButton.getTransform().YPos = 50;
+
+        creditsButton.setAction(new Action() {
+            @Override
+            public void onClick(){
+                SCENE_TO_RET = SceneType.CREDITS;
+            }
+            
+            @Override
+            public void onHover() {
+                // Do Nothing
+            }
+        });
+        
+        creditsButton.setLayer(999);
+    
+        this.SPRITES.add(creditsButton);
 
         // Demo Birb
         Player demoBird = new Player(App.SPRITESHEET);

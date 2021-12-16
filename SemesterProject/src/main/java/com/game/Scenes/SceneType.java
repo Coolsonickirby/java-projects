@@ -1,3 +1,10 @@
+/*|----------------------------------------------------------------|*
+ *| CIS-171 Java Programming                                       |*
+ *| Final Project - Flappy Bird FX                                 |*
+ *| Written By: Ali Hussain (Coolsonickirby/Random)                |*
+ *|----------------------------------------------------------------|*
+ */
+
 package com.game.Scenes;
 
 public enum SceneType {
@@ -5,4 +12,5 @@ public enum SceneType {
     GAME,
     OPTIONS,
     LEADERBOARD,
+    CREDITS,
 }

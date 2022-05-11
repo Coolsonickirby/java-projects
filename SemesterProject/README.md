@@ -65,7 +65,11 @@ A Flappy Bird clone written using Java and JavaFX! This is a project written for
 		- Exception Handling is everywhere in this project, but it'd take forever to list them all.
 ## Credits
 [Ali Hussain](https://github.com/Coolsonickirby) [(Coolsonickirby / Random)](https://www.youtube.com/channel/UCUp-3P4BdmQWYCJ7rRyzrbQ/) - Programmer
+
 [Superjustinbros](https://www.spriters-resource.com/submitter/Superjustinbros/) - [Spritesheet](https://www.spriters-resource.com/mobile/flappybird/sheet/59894/)
+
 [StackOverFlow](https://stackoverflow.com/) - Answering Programming Questions
+
 [Majora](https://www.youtube.com/watch?v=dQw4w9WgXcQ) & [Catalyst](https://www.youtube.com/channel/UCJKEJbn6HJ3c8hy8WO5zKsg) - Beta Testing
+
 Kimberly Moscardelli - For letting me work on these fun projects and for being a cool professor!
